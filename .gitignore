@@ -10,3 +10,11 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+.project
+bin/.gitignore
+src/Dvxcv.java
+src/asdDS.java
+src/elimGameEL/BlockEnum.java
+src/elimGameEL/Control.java
+src/elimGameEL/Data.java
+test/DataTest.java
