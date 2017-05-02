@@ -1,6 +1,6 @@
 package elimGameEL;
 
 public enum BlockEnum {
-		//asdasdadsgubhubh
-	
+		
+	RED, GREEN, WHITE, YELLOW ,PURPLE,BLUE
 }
