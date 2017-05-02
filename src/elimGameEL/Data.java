@@ -2,6 +2,9 @@ package elimGameEL;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import jdk.nashorn.internal.runtime.regexp.joni.constants.Arguments;
+
 import java.util.Arrays;
 
 
@@ -14,14 +17,16 @@ public class Data {
 		long startTime=System.nanoTime();   //获取开始时间  //记录程序开始时间
 		
 		// TODO Auto-generated method stub
-		Data data = new Data();
+		Data data = new Data(4,4,6);
 		
-		data.initializeData(5);
+		data.initializeData();
 		
 		data.showData(data.argsData);
 
 		System.out.println();
 		data.showData(data.isAbleElim());
+		System.out.println(data.isDead());
+		
 		
 		long endTime=System.nanoTime(); //获取结束时间 //记录程序结束时间
 		System.out.println();
@@ -30,11 +35,24 @@ public class Data {
 	//#######################################
 	
 	//****************************************
-	private final int height = 10;
-	private final int width = 8;
-	private int[][] argsData = new int[height][width];
-	
-	
+	private final int height ;
+	private final int width ;
+	private int[][] argsData ;
+	private final int  variety;
+	//****************************************
+	/**
+	 * 构造数组的结构框架
+	 * @param h 为数组的高度(行数)
+	 * @param w 为数组的宽度(列数)
+	 * @param variety 数组中图案的种类
+	 */
+	Data(int h,int w,int variety){
+		height = h;
+		width = w;
+		argsData = new int[height][width];
+		this.variety=variety;
+		
+	}
 	
 
 	
@@ -59,14 +77,18 @@ public class Data {
 	//***************************************
 	/**
 	 * 初始化数组,并且给每个位置填上1到variety
-	 * @param variety 作为图案的个数
+	 * 
 	 */
-	public void initializeData(int variety){
+	public void initializeData(){
 		for(int i =0;i<width;i++){
 			for(int j =0;j<height;j++){
-				argsData[j][i]=(int)(Math.random()*variety+1);
+				argsData[j][i]=(int)(Math.random()*this.variety+1);
 			}
 		}
+		while(isAbleElim()!=null){
+			initializeData();
+		}
+		
 		
 	}
 	
@@ -74,20 +96,23 @@ public class Data {
 	/**
 	 * 判断当前数组是否有可消除的情况,如果没有就返回null,否则返回一个数组,其中负数表示应该被消除的元素
 	 * 后续处理时可以遍历数组单独针对负数进行处理
-	 * @return 如果返回一个数组,其中负数表示应该被消除;如果返回null表示没有可消除的的情况
+	 * @return 如果返回原数组的一个拷贝数组,其中负数表示应该被消除;如果返回null表示没有可消除的的情况
 	 * 
 	 */
 	public int[][] isAbleElim(){
 		int[][] argsData = new int[height][width];
 		boolean ableElim = false;
-		
+		//可替换system.arrayCopy方法
 		for(int i =0;i<width;i++){
 			for(int j =0;j<height;j++){
 				argsData[j][i]=this.argsData[j][i];
 			}
 		}
+		//单独对数组中的每个元素检查其周围元素,如果一旦不相同就返回
 		for(int i =0;i<width;i++){
 			for(int j =0;j<height;j++){
+				
+				//先横向检查
 				{
 					int count =1;
 					int t =i-1;
@@ -107,6 +132,7 @@ public class Data {
 						
 					}
 					
+					//即发现了三个连续的
 					{
 						if(count>2){
 							ableElim = true;
@@ -134,6 +160,8 @@ public class Data {
 					
 				}
 				
+				//纵向检查
+				
 				{
 					int countj =1;
 					int t =j-1;
@@ -152,6 +180,8 @@ public class Data {
 						}else{ break; }
 						
 					}
+					
+					//发现了三个连续的
 					
 					{
 						if(countj>2){
@@ -180,16 +210,7 @@ public class Data {
 				
 					
 				}
-//				List<Integer> nearij = this.getNear(i, j);
-//				for(int ij : nearij){
-//					if(argsData[j][i]==argsData[ij%100][ij/100]){
-//						if(j==ij%100){
-//							while(t<){
-//								
-//							}
-//						}else{}
-//					}
-//				}
+
 			}
 		}	
 		
@@ -211,15 +232,72 @@ public class Data {
 	 * 例如709代表横坐标7纵坐标9
 	 * @param i 作为数组横坐标,
 	 * @param j 作为数组纵坐标,
+	 * @param k 与ji的距离
 	 * @return 一个list,拆分出
 	 */
-	public List<Integer> getNear(int i,int j){
+	private List<Integer> getNear(int i,int j,int k){
 		List<Integer> ret=new ArrayList<Integer>();
-		if((i-1)>0)		{ret.add((i-1)*100+j);}
-		if((i+1)<width)	{ret.add((i+1)*100+j);}
-		if((j-1)>0)		{ret.add(i*100+(j-1));}
-		if((j+1)<height){ret.add(i*100+(j+1));}
+		if((i-k)>=0)		{ret.add((i-k)*100+j);}
+		if((i+k)<width)	{ret.add((i+k)*100+j);}
+		if((j-k)>=0)		{ret.add(i*100+(j-k));}
+		if((j+k)<height){ret.add(i*100+(j+k));}
 
 		return  ret;
-}
+	}
+	private int checkArge(int j,int i){
+		if(i>=0&&i<width&&j>=0&&j<height){
+			return argsData[j][i];
+		}else{
+			return 0;
+		}
+	}
+	
+	
+	/**
+	 * 判断当前数组是否为死图
+	  
+	 * @return true表示死图,false表示不是死图
+	 */
+	public boolean isDead(){
+		boolean isDead =true;
+		for(int i =0;i<width;i++){
+			for(int j =0;j<height;j++){
+				
+				{
+					
+						if(argsData[j][i]==checkArge(j+1, i)){						
+								if(argsData[j][i]==checkArge(j+2, i)||argsData[j][i]==checkArge(j-2, i)||argsData[j][i]==checkArge(j+2, i+1)||
+								   argsData[j][i]==checkArge(j+2, i-1)||argsData[j][i]==checkArge(j-1, i-1)||argsData[j][i]==checkArge(j-1, i+1))
+								{	return false; }else{System.out.println(j+" "+i+" "+(j+1)+" "+i);}														
+						}
+						
+						if(argsData[j][i]==checkArge(j, i+1)){						
+							if(argsData[j][i]==checkArge(j, i+2)||argsData[j][i]==checkArge(j, i-2)||argsData[j][i]==checkArge(j+1, i+2)||
+							   argsData[j][i]==checkArge(j+1, i-1)||argsData[j][i]==checkArge(j-1, i-1)||argsData[j][i]==checkArge(j-1, i+2))
+							{	return false; }else{System.out.println(j+" "+i+" "+(j)+" "+(i+1));}														
+					}
+						
+					
+				}
+						
+						
+				{
+					if(argsData[j][i]==checkArge(j+2, i)){
+						if(argsData[j][i]==checkArge(j+1, i+1)||argsData[j][i]==checkArge(j+1, i-1))
+								{	return false; }else{System.out.println(j+" "+i+" "+(j+2)+" "+i);}														
+						}
+					
+					if(argsData[j][i]==checkArge(j, i+2)){						
+						if(argsData[j][i]==checkArge(j-1, i+1)||argsData[j][i]==checkArge(j+1, i+1))
+						{	return false; }else{System.out.println(j+" "+i+" "+(j)+" "+(i+2));}														
+				}
+				}
+				
+			}	
+		}
+		return isDead;
+	}
+	
+	
+	
 }
