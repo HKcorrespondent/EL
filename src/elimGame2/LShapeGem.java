@@ -16,5 +16,9 @@ public class LShapeGem extends CommonGem {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	@Override
+	public String getColor(){
+		return this.color.colour+"L";
+	}
 }

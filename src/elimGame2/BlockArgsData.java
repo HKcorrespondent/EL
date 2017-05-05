@@ -3,6 +3,9 @@ package elimGame2;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
+
+
 
 
 
@@ -11,13 +14,24 @@ public class BlockArgsData {
 		long startTime=System.nanoTime();   //获取开始时间  //记录程序开始时间
 		System.out.println((int)(Math.random()*6+1));
 		
-		BlockArgsData data = new BlockArgsData(5, 4);
+		BlockArgsData data = new BlockArgsData(8, 6);
 		data.initializeData();
 		data.showData(data.argsData);
 		System.out.println();
 		data.isAbleElim();
 		data.showData(data.argsData);
 		System.out.println("isDead: "+data.isDead());
+		
+		int i=0;
+		while(i<10){
+			Scanner in =new Scanner(System.in);
+			System.out.println(
+			data.exchangeloc(in.nextInt(), in.nextInt(), in.nextInt(), in.nextInt()));
+			System.out.println(data.elim().size());
+			data.showData(data.argsData);
+		}
+		
+		
 		long endTime=System.nanoTime(); //获取结束时间 //记录程序结束时间
 		System.out.println();
 		System.out.println("程序运行时间： "+(endTime-startTime)/1000000D+"ms"); 
@@ -48,10 +62,16 @@ public class BlockArgsData {
 				for(int j =0;j<height;j++){
 					System.out.print(j+"  ");
 					for(int i =0;i<width;i++){
+						if(argsData[j][i]==null){
+							System.out.print("蛤蛤"+"    ");
+							
+							continue;
+						}
 						if(argsData[j][i].isElim){
 						System.out.print("叉叉"+"    ");
 						}else{
-						System.out.print(argsData[j][i].color.colour+"色"+"    ");
+						System.out.print(argsData[j][i].getColor()+"    ");
+					
 						}
 					}
 					System.out.println();
@@ -84,7 +104,6 @@ public class BlockArgsData {
 			}
 		}
 		
-		
 		private BlockEnum intTOcolor(int i){
 			switch(i){
 			case 1:
@@ -109,11 +128,7 @@ public class BlockArgsData {
 			}
 			
 		}
-		
-		
-		
-		
-		
+			
 		/**
 		 * 判断当前数组是否有可消除的情况,如果没有就返回false,否则返回true,并将应该被消除的元素的iselim改为true
 		 * 
@@ -149,15 +164,19 @@ public class BlockArgsData {
 							
 						}
 						
-						//即发现了三个连续的
+						//即发现了三个横向连续的
 						{
 							if(count>2){
+								
 								ableElim = true;
+								
 								argsData[j][i].isElim=true;
+								argsData[j][i].countAB=count;
 								int s =i-1;
 								while(s>=0){
 									if(this.argsData[j][i].equals(this.argsData[j][s])){
 										argsData[j][s].isElim=true;
+										argsData[j][s].countAB=count;
 										s--;
 									}else{ break; }
 									
@@ -166,6 +185,7 @@ public class BlockArgsData {
 								while(s<width){
 									if(this.argsData[j][i].equals(this.argsData[j][s])){
 										argsData[j][s].isElim=true;
+										argsData[j][s].countAB=count;
 										s++;
 									}else{ break; }
 									
@@ -204,11 +224,13 @@ public class BlockArgsData {
 							if(countj>2){
 								ableElim = true;
 								argsData[j][i].isElim=true;
+								argsData[j][i].countOR=countj;
 								int s =j-1;
 								while(s>=0){
 									
 									if(this.argsData[j][i].equals(this.argsData[s][i])){
 										argsData[s][i].isElim=true;
+										argsData[s][i].countOR=countj;
 										s--;
 									}else{ break; }
 									
@@ -218,6 +240,7 @@ public class BlockArgsData {
 								
 									if(this.argsData[j][i].equals(this.argsData[s][i])){
 										argsData[s][i].isElim=true;
+										argsData[s][i].countOR=countj;
 										s++;
 									}else{ break; }
 									
@@ -303,12 +326,12 @@ public class BlockArgsData {
 			CommonGem gem1=checkArge(j1, i1);
 			CommonGem gem2=checkArge(j2, i2);
 			if(gem1!=null&&gem2!=null){
-				argsData[j2][j2]=gem1;
+				argsData[j2][i2]=gem1;
 				argsData[j1][i1]=gem2;
 				if(isAbleElim()){
 					
-					if(argsData[j2][j2].isElim==true){
-						argsData[j2][j2].canLevelUp=true;
+					if(argsData[j2][i2].isElim==true){
+						argsData[j2][i2].canLevelUp=true;
 					}
 					if(argsData[j1][i1].isElim==true){
 						argsData[j1][i1].canLevelUp=true;
@@ -316,7 +339,7 @@ public class BlockArgsData {
 					
 					return true;
 				}else{
-					argsData[j2][j2]=gem2;
+					argsData[j2][i2]=gem2;
 					argsData[j1][i1]=gem1;
 					return false;
 				}
@@ -326,13 +349,27 @@ public class BlockArgsData {
 			
 		}
 		/**
-		 * 
-		 * 
-		 */
+		 * 在调用该函数之前,应该确认已经将可消除的元素标记
+		 * @return 返回一个List其中是应该被消除的方块的调用,并且把能升级为特效宝石的方块进行了升级
+		 */	 
 		
-		public void elim(){
+		public List<CommonGem> elim(){
+			List<CommonGem> list=new ArrayList<CommonGem>();
+			for(int i =0;i<width;i++){
+				for(int j =0;j<height;j++){
+					if(argsData[j][i].isElim){
+						list.add(argsData[j][i]);
+						argsData[j][i]=argsData[j][i].elim();
+					}
+				}
+			}
 			
-			
-			
+			return list;
 		}
+		
+		/**
+		 * 掉落函数,在已经消除的情况下掉落
+		 * 
+		 */	 
+		
 }

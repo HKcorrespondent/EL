@@ -16,5 +16,8 @@ public class LinearGem extends CommonGem {
 		// TODO Auto-generated method stub
 
 	}
-
+	@Override
+	public String getColor(){
+		return this.color.colour+"³¤";
+	}
 }
