@@ -2,12 +2,21 @@ package elimGameEL;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+import java.util.concurrent.Exchanger;
 
 import jdk.nashorn.internal.runtime.regexp.joni.constants.Arguments;
 
 import java.util.Arrays;
 
-
+class Point{
+	int i;
+	int j;
+	Point(int hen,int zong){
+		i=hen;
+		j=zong;
+	}	
+}
 
 public class Data {
 	
@@ -17,7 +26,7 @@ public class Data {
 		long startTime=System.nanoTime();   //获取开始时间  //记录程序开始时间
 		
 		// TODO Auto-generated method stub
-		Data data = new Data(4,4,6);
+		Data data = new Data(5,5,4);
 		
 		data.initializeData();
 		
@@ -26,8 +35,12 @@ public class Data {
 		System.out.println();
 		data.showData(data.isAbleElim());
 		System.out.println(data.isDead());
-		
-		
+		{
+			Scanner in =new Scanner(System.in);
+			System.out.println(
+			data.exchangeloc(in.nextInt(), in.nextInt(), in.nextInt(), in.nextInt()).size());
+		}
+		data.showData(data.argsData);
 		long endTime=System.nanoTime(); //获取结束时间 //记录程序结束时间
 		System.out.println();
 		System.out.println("程序运行时间： "+(endTime-startTime)/1000000D+"ms"); 
@@ -227,7 +240,7 @@ public class Data {
 	}
 	
 	/**
-	 * 根据的得到值 返回一个list,list中每个值的百位为横坐标,十位和各位为纵坐标
+	 * 根据的得到值 返回一个list,list中每个值的百位为横坐标,十位和个位为纵坐标
 	 * 格式为(横坐标)(纵坐标)
 	 * 例如709代表横坐标7纵坐标9
 	 * @param i 作为数组横坐标,
@@ -298,6 +311,72 @@ public class Data {
 		return isDead;
 	}
 	
+	/**
+	 * 根据玩家操作交换两个宝石的位置并判断交换后是否可消除，若可以则调用drop方法进行消除和宝石下落
+	  
+	 * @return null表示玩家操作后不可消除，失败；有值list用于动画制作
+	 */
 	
+	public List<Point> exchangeloc(int j1,int i1,int j2,int i2){
+		List<Point> list=new ArrayList<Point>();
+		
+		int temp=0;
+		temp=argsData[j1][i1];
+		argsData[j1][i1]=argsData[j2][i2];
+		argsData[j2][i2]=temp;
+		
+		int[][] argsData1=isAbleElim();
+		if(argsData1==null){
+			argsData[j2][i2]=argsData[j1][i1];
+			argsData[j1][i1]=temp;
+			return null;
+		}else{
+			for(int i=0;i<width;i++){
+				for(int j=0;j<height;j++){
+					if(argsData1[j][i]<0){
+						list.add(new Point(j,i));
+					}
+				}
+			}													
+			drop(argsData1);
+			return list;
+		}
+	}
+	
+	/**
+	 * 遍历矩阵，将所有可消位置用其上方的位置消除，并将最上方腾出的位置用新的随机宝石填充
+	  
+	 * @return
+	 */
+	
+	public void drop(int[][] argsData2){
+		for(int i=0;i<width;i++){ 
+			for(int j=0;j<height;j++){
+				if(argsData2[j][i]<0){
+					for(int m=1;m<=j;m++){
+						argsData[j-m+1][i]=argsData[j-m][i];
+					}
+					argsData[0][i]=(int)(Math.random()*this.variety+1);
+				}
+			}
+		}
+		if(isAbleElim()!=null){
+			exchangeloc(isAbleElim());
+		}
+	}
+	
+	public List<Point> exchangeloc(int[][] argsData1){
+		List<Point> list=new ArrayList<Point>();
+			
+		for(int i=0;i<width;i++){
+			for(int j=0;j<height;j++){
+				if(argsData1[j][i]<0){
+					list.add(new Point(j,i));
+				}
+			}
+		}													
+		drop(argsData1);
+		return list;
+	}
 	
 }

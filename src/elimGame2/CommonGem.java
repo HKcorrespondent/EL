@@ -1,4 +1,7 @@
 package elimGame2;
+
+import swingTest.JLabelTest;
+
 //2.	玩家可以置换相邻两块宝石的位置，只有三个或三个以上相同宝石在同一行或同一列才能消除成功，如果置换后未能消除成功则两块宝石回到初始位置。
 public class CommonGem {
 	public static void main(String[] args) {
@@ -26,11 +29,20 @@ public class CommonGem {
 	//该方块应该掉落多少
 	private int needMove = 0;
 	//
+	JLabelTest label ;
+	
+	public JLabelTest getLabel(){
+		return label;
+		
+	}
+	
+	
 	public CommonGem(BlockEnum c,int i,int j) {
 		// TODO Auto-generated constructor stub
 		abscissa = i;
 		ordinate=j;
 		color=c;
+		label =new JLabelTest(i*50, j*50, c);
 	}
 
 	/*

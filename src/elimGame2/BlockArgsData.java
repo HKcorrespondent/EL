@@ -52,6 +52,15 @@ public class BlockArgsData {
 		
 		
 	}
+	public CommonGem[][] getArgs(){
+		return argsData;
+		
+	}
+	
+	
+	
+	
+	
 	//***************************************
 		/**
 		 * 用来测试的时候显示数组的
@@ -84,7 +93,7 @@ public class BlockArgsData {
 	
 	//***************************************
 		/**
-		 * 初始化数组,并且给每个位置填上1到variety
+		 * 初始化数组,并且给每个位置填上宝石
 		 * 
 		 */
 		public void initializeData(){
@@ -263,7 +272,7 @@ public class BlockArgsData {
 			
 		}
 		
-		private CommonGem checkArge(int j,int i){
+		public CommonGem checkArge(int j,int i){
 			if(i>=0&&i<width&&j>=0&&j<height){
 				return argsData[j][i];
 			}else{
