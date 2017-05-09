@@ -1,5 +1,6 @@
 package elimGame2;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -62,7 +63,7 @@ public class CommonGem {
 		
 	}
 	
-	protected static Set<Integer> set;
+	protected static Set<Integer> set=new HashSet<Integer>();
 	
 	public static void	setClean(){
 		set.clear();

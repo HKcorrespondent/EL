@@ -14,8 +14,31 @@ public class BlockArgsData {
 		long startTime=System.nanoTime();   //获取开始时间  //记录程序开始时间
 		System.out.println((int)(Math.random()*6+1));
 		
-		BlockArgsData data = new BlockArgsData(8, 6);
+		BlockArgsData data = new BlockArgsData(2, 5);
 		data.initializeData();
+		data.argsData[0][0]=new CommonGem(BlockEnum.YELLOW, 0, 0);
+		data.argsData[0][1]=new LinearGem(BlockEnum.BLUE, 1, 0);
+		data.argsData[0][2]=new CommonGem(BlockEnum.RED, 2, 0);
+		data.argsData[0][3]=new CommonGem(BlockEnum.BLUE, 3, 0);
+		data.argsData[0][4]=new CommonGem(BlockEnum.YELLOW, 4, 0);
+		
+		data.argsData[1][0]=new CommonGem(BlockEnum.BLUE, 0, 1);
+		data.argsData[1][1]=new CommonGem(BlockEnum.RED, 1, 1);
+		data.argsData[1][2]=new CommonGem(BlockEnum.BLUE, 2, 1);
+		data.argsData[1][3]=new CommonGem(BlockEnum.BLUE, 3, 1);
+		data.argsData[1][4]=new CommonGem(BlockEnum.YELLOW, 4, 1);
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		data.showData(data.argsData);
 		System.out.println();
 		data.isAbleElim();
@@ -77,7 +100,8 @@ public class BlockArgsData {
 							continue;
 						}
 						if(argsData[j][i].isElim){
-						System.out.print("叉叉"+"    ");
+//						System.out.print("叉叉"+"    ");
+						System.out.print(argsData[j][i].getColor()+"    ");
 						}else{
 						System.out.print(argsData[j][i].getColor()+"    ");
 					
@@ -345,6 +369,14 @@ public class BlockArgsData {
 					if(argsData[j1][i1].isElim==true){
 						argsData[j1][i1].canLevelUp=true;
 					}
+					int x =argsData[j2][i2].abscissa;
+					int y =argsData[j2][i2].ordinate;
+					
+					argsData[j2][i2].abscissa=argsData[j1][i1].abscissa;
+					argsData[j2][i2].ordinate=argsData[j1][i1].ordinate;
+					argsData[j1][i1].abscissa=x;
+					argsData[j1][i1].ordinate=y;
+					
 					
 					return true;
 				}else{
@@ -396,5 +428,9 @@ public class BlockArgsData {
 		 * 掉落函数,在已经消除的情况下掉落
 		 * 
 		 */	 
+		 public void fail(){
+			 
+		 }
+		 
 		
 }
