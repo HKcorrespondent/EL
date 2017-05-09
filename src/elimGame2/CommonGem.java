@@ -1,5 +1,8 @@
 package elimGame2;
 
+import java.util.List;
+import java.util.Set;
+
 import swingTest.JLabelTest;
 
 //2.	玩家可以置换相邻两块宝石的位置，只有三个或三个以上相同宝石在同一行或同一列才能消除成功，如果置换后未能消除成功则两块宝石回到初始位置。
@@ -13,6 +16,9 @@ public class CommonGem {
 	}
 	//######################################
 	//######################################
+	public static int height;
+	public static int width;
+	
 	//横坐标
 	protected int abscissa ;
 	//纵坐标
@@ -55,33 +61,53 @@ public class CommonGem {
 		return move;
 		
 	}
-	public CommonGem elim(){
+	
+	protected static Set<Integer> set;
+	
+	public static void	setClean(){
+		set.clear();
+		}
+	
+	public static Set<Integer>	getset(){
 		
-			if(canLevelUp){
-				if(countAB>4||countOR>4)
-				{
-					//you dian wen ti
-					return new ColorizedGem(color, abscissa, ordinate);
-				}
-				
-				if((countAB==4&&countOR==3)||(countAB==3&&countOR==4))
-				{
-					return new CrossedGem(color, abscissa, ordinate);
-				}
-				
-				if(countAB==4||countOR==4)	
-				{
-					return new LinearGem(color, abscissa, ordinate);
-				}	
-				
-				if(countAB==3&&countOR==3)
-				{
-					return new LShapeGem(color, abscissa, ordinate);
-				}
-				
-			}
-			return null;
+		return set;
+		}
+	
+	public	void elim(){
+			set.add(ordinate*100+abscissa);
+			
+			return ;
 	}
+	public CommonGem levelUp(){
+		if(canLevelUp){
+			if(countAB>4||countOR>4)
+			{
+				//you dian wen ti
+				return new ColorizedGem(color, abscissa, ordinate);
+			}
+			
+			if((countAB==4&&countOR==3)||(countAB==3&&countOR==4))
+			{
+				return new CrossedGem(color, abscissa, ordinate);
+			}
+			
+			if(countAB==4||countOR==4)	
+			{
+				return new LinearGem(color, abscissa, ordinate);
+			}	
+			
+			if(countAB==3&&countOR==3)
+			{
+				return new LShapeGem(color, abscissa, ordinate);
+			}
+			
+			
+			
+		}
+		return null;
+	}
+	
+	
 	
 	 @Override
 	public boolean equals(Object arg0) {

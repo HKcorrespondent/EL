@@ -20,4 +20,30 @@ public class LinearGem extends CommonGem {
 	public String getColor(){
 		return this.color.colour+"³¤";
 	}
+	
+	@Override
+	public	void elim(){
+		//problem
+		if(countAB>=countOR){
+			for(int i =0;i<width;i++){
+				set.add(ordinate*100+i);
+			}
+		}else{
+			for(int j=0;j<height;j++){
+				set.add(j*100+abscissa);
+			}
+		}
+		
+		
+		
+		
+		
+		
+		
+		
+	
+		
+		return ;
+}
+	
 }

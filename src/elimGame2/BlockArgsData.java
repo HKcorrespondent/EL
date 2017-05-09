@@ -46,8 +46,8 @@ public class BlockArgsData {
 	
 	
 	public BlockArgsData(int h,int w){
-		height = h;
-		width = w;
+		CommonGem.height=height = h;
+		CommonGem.width=width = w;
 		argsData = new CommonGem[height][width];
 		
 		
@@ -364,15 +364,31 @@ public class BlockArgsData {
 		
 		public List<CommonGem> elim(){
 			List<CommonGem> list=new ArrayList<CommonGem>();
+			CommonGem.setClean();
 			for(int i =0;i<width;i++){
 				for(int j =0;j<height;j++){
 					if(argsData[j][i].isElim){
-						list.add(argsData[j][i]);
-						argsData[j][i]=argsData[j][i].elim();
+						
+						argsData[j][i].elim();
+						
+						
+						
+						
+						
+						
+						
 					}
 				}
 			}
+			for(int t : CommonGem.getset()){
+				int j=t/100;
+				int i=t%100;
+				argsData[j][i]=argsData[j][i].levelUp();
+			}
 			
+			
+			
+			CommonGem.setClean();
 			return list;
 		}
 		
