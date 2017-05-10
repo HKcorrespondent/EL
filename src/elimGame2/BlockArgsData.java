@@ -130,7 +130,7 @@ public class BlockArgsData {
 				for(int i =0;i<width;i++){
 					for(int j =0;j<height;j++){
 						if(argsData[j][i].isElim==true){
-							argsData[j][i]=new CommonGem(intTOcolor((int)(Math.random()*6+1)), i, j);
+							argsData[j][i]=new CommonGem(intTOcolor((int)(Math.random()*6+1)), i, j);        //?
 						}
 					}
 				}
@@ -425,11 +425,31 @@ public class BlockArgsData {
 		}
 		
 		/**
-		 * 掉落函数,在已经消除的情况下掉落
+		 * 掉落函数,在已经消除的情况下掉落,记录下每个宝石掉落的距离,计入数组drop中作为返回值，提供给动画制作。
 		 * 
 		 */	 
-		 public void fail(){
-			 
+		 public int[][] drop(){
+			 int[][] drop=new int[height][width];
+			 for(int m1=0;m1<width;m1++){
+				 for(int m2=0;m2<height;m2++){
+					 drop[m2][m1]=0;
+				 }
+			 }
+			 for(int i=0;i<width;i++){
+				 for(int j=0;j<height;j++){
+					 while(argsData[j][i]==null){
+						 if(j==0){
+							 argsData[j][i]=new CommonGem(intTOcolor((int)(Math.random()*6+1)), i, j);
+						 }else{
+							 for(int k=0;k<j;k++){
+								 argsData[j-k][i]=argsData[j-k-1][i];
+							 }
+							 drop[j][i]++;
+						 }
+					 }
+				 }
+			 }
+			 return drop;
 		 }
 		 
 		
