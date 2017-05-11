@@ -36,7 +36,7 @@ public class CommonGem {
 	//该方块应该掉落多少
 	private int needMove = 0;
 	//
-	JLabelTest label ;
+	private JLabelTest label ;
 	
 	public JLabelTest getLabel(){
 		return label;

@@ -14,7 +14,7 @@ public class BlockArgsData {
 		long startTime=System.nanoTime();   //获取开始时间  //记录程序开始时间
 		System.out.println((int)(Math.random()*6+1));
 		
-		BlockArgsData data = new BlockArgsData(2, 5);
+		BlockArgsData data = new BlockArgsData(5, 5);
 		data.initializeData();
 		data.argsData[0][0]=new CommonGem(BlockEnum.YELLOW, 0, 0);
 		data.argsData[0][1]=new LinearGem(BlockEnum.BLUE, 1, 0);
@@ -43,6 +43,7 @@ public class BlockArgsData {
 		System.out.println();
 		data.isAbleElim();
 		data.showData(data.argsData);
+		
 		System.out.println("isDead: "+data.isDead());
 		
 		int i=0;
@@ -51,6 +52,8 @@ public class BlockArgsData {
 			System.out.println(
 			data.exchangeloc(in.nextInt(), in.nextInt(), in.nextInt(), in.nextInt()));
 			System.out.println(data.elim().size());
+			data.showData(data.argsData);
+			data.drop();
 			data.showData(data.argsData);
 		}
 		
