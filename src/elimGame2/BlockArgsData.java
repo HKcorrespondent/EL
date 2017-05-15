@@ -58,9 +58,6 @@ public class BlockArgsData {
 		}
 		
 		
-		long endTime=System.nanoTime(); //获取结束时间 //记录程序结束时间
-		System.out.println();
-		System.out.println("程序运行时间： "+(endTime-startTime)/1000000D+"ms"); 
 	}
 	
 	
@@ -396,7 +393,7 @@ public class BlockArgsData {
 		 * 在调用该函数之前,应该确认已经将可消除的元素标记
 		 * @return 返回一个List其中是应该被消除的方块的调用,并且把能升级为特效宝石的方块进行了升级
 		 */	 
-		
+		static List<CommonGem> changeList=new ArrayList<CommonGem>();
 		public List<CommonGem> elim(){
 			List<CommonGem> list=new ArrayList<CommonGem>();
 			CommonGem.setClean();
@@ -416,9 +413,14 @@ public class BlockArgsData {
 				}
 			}
 			for(int t : CommonGem.getset()){
+				
 				int j=t/100;
 				int i=t%100;
+				list.add(argsData[j][i]);
 				argsData[j][i]=argsData[j][i].levelUp();
+				if(argsData[j][i]!=null){
+//					list.add(argsData[j][i]);
+				}
 			}
 			
 			
@@ -431,29 +433,82 @@ public class BlockArgsData {
 		 * 掉落函数,在已经消除的情况下掉落,记录下每个宝石掉落的距离,计入数组drop中作为返回值，提供给动画制作。
 		 * 
 		 */	 
-		 public int[][] drop(){
+		 public List<CommonGem> drop(){
+			 long startTime=System.nanoTime();   //获取开始时间  //记录程序开始时间
+			 
+			 
 			 int[][] drop=new int[height][width];
-			 for(int m1=0;m1<width;m1++){
-				 for(int m2=0;m2<height;m2++){
-					 drop[m2][m1]=0;
-				 }
-			 }
+		
+			 
+			 int[] fail = new int[width];
+			
+				
+
+				
 			 for(int i=0;i<width;i++){
 				 for(int j=0;j<height;j++){
-					 while(argsData[j][i]==null){
-						 if(j==0){
-							 argsData[j][i]=new CommonGem(intTOcolor((int)(Math.random()*6+1)), i, j);
-						 }else{
-							 for(int k=0;k<j;k++){
-								 argsData[j-k][i]=argsData[j-k-1][i];
+					 if(argsData[j][i]==null){
+						 fail[i]++;
+						 for(int jabove = j-1;jabove>=0;jabove--){
+							 if(argsData[jabove][i]!=null){
+								 argsData[jabove][i].needMove++;
 							 }
-							 drop[j][i]++;
-						 }
+						 }										 
 					 }
 				 }
 			 }
-			 return drop;
+			 
+			
+			 
+			 for(int i=0;i<width;i++){
+				 for(int j=height-1;j>=0;j--){
+					 if(argsData[j][i]!=null&&argsData[j][i].needMove!=0){
+						 changeList.add(argsData[j][i]);
+						 int move =argsData[j][i].move();
+						 
+						 
+						 argsData[j+(move)][i]=argsData[j][i];
+						 argsData[j][i]=null;
+					 }
+				 }
+			 
+			 }
+			 
+			 
+			
+			
+			 
+			 for(int i=0;i<width;i++){
+				 int move =fail[i];
+				 
+				 for(int j=height-1;j>=0;j--){
+					 if(argsData[j][i]==null){
+						 argsData[j][i]=new CommonGem(intTOcolor((int)(Math.random()*6+1)), i, j);
+						 argsData[j][i].getLabel().nowLocation=new myPoint((j-move)*50, i*50);
+						 argsData[j][i].getLabel().newGet=true;
+						 changeList.add(argsData[j][i]);
+						 
+					 }
+					 
+					 
+					 
+				 }
+			}
+			 
+			 
+			
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			
+			 return changeList;
 		 }
-		 
+		 public void cleanChangelist(){
+			 changeList.clear();
+		 }
 		
 }

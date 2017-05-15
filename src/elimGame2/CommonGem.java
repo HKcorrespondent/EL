@@ -21,9 +21,9 @@ public class CommonGem {
 	public static int width;
 	
 	//横坐标
-	protected int abscissa ;
+	public int abscissa ;
 	//纵坐标
-	protected int ordinate ;
+	public int ordinate ;
 	public final BlockEnum color ;
 	//消除时的一起消除的方块个数.可以用来产生不同的特效宝石
 	
@@ -34,7 +34,7 @@ public class CommonGem {
 	//是否可以成为特效宝石
 	boolean canLevelUp = false;
 	//该方块应该掉落多少
-	private int needMove = 0;
+	int needMove = 0;
 	//
 	private JLabelTest label ;
 	
@@ -57,6 +57,8 @@ public class CommonGem {
 	 * 移动是指在坐标上从上往下的距离
 	 */
 	public int move(){
+		ordinate+=needMove;
+		label.goThere(ordinate,abscissa );
 		int move =needMove;
 		needMove= 0;
 		return move;
@@ -107,7 +109,14 @@ public class CommonGem {
 		}
 		return null;
 	}
-	
+	public void renew(int j,int i){
+		abscissa=i;
+		ordinate=j;
+		label.goThere(j,i);
+		label.nowLocation.x=i*50;
+		label.nowLocation.y=j*50;
+		
+	}
 	
 	
 	 @Override

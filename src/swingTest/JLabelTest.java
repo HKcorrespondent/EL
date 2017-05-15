@@ -39,13 +39,14 @@ public class JLabelTest extends JLabel implements Runnable{
 	static	java.net.URL imgURLred = JLabelTest.class.getResource("red.jpg");
 		Icon red = new ImageIcon(imgURLred);
 		
-	myPoint nowLocation;
+	public myPoint nowLocation;
 	myPoint moveTO ;
 	
 	
 	static int x_zhou=-1;
 	static int y_zhou=-1;
 	
+	public boolean newGet=false;
 	
 	public JLabelTest(int i ,int j,BlockEnum color){
 		i=i*50;
@@ -128,7 +129,7 @@ public class JLabelTest extends JLabel implements Runnable{
 	public void run() {
 		// TODO Auto-generated method stub
 		//	由于现在只需要考虑横移和竖移(难道还能斜移?)
-		final long time =100;
+		long time =30;
 		final int moveStrp=5;
 		if(nowLocation.y!=moveTO.y){
 			if(moveTO.y>nowLocation.y){
@@ -213,6 +214,7 @@ public class JLabelTest extends JLabel implements Runnable{
 	
 		nowLocation.x=moveTO.x;
 		nowLocation.y=moveTO.y;
+		setBounds(nowLocation.x, nowLocation.y, 50, 50);
 	}
 
 
