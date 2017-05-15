@@ -3,11 +3,13 @@ package swingTest;
 
 
 import java.awt.Button;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -33,25 +35,33 @@ public class GameJPanel extends JPanel implements ActionListener{
 	
 	java.awt.Image	backGroundImage = new ImageIcon ("C:\\Users\\asus\\Desktop\\sucai\\big.jpg").getImage();
 	
-	
+	BlockArgsData blockArgsData;
+	CommonGem[][] data;
 	public GameJPanel() {
 		// TODO Auto-generated constructor stub
 		setLayout(null);
 		//绝对布局下设置位置和大小
 		setBounds(20,20,400,600);
 		
-		int height=5 ;
-		int width=4 ;
-		BlockArgsData blockArgsData = new BlockArgsData(height, width);
+		int height=10 ;
+		int width=8 ;
+		blockArgsData = new BlockArgsData(height, width);
 		blockArgsData.initializeData();
-		CommonGem[][] data = blockArgsData.getArgs();
+		data = blockArgsData.getArgs();
+	
+		
+		
 		
 		for(int i =0;i<width;i++){
 			for(int j =0;j<height;j++){
 				add(data[j][i].getLabel());
-				final int jy = j;
-				final int ix = i;
+				final int  jy = j;
+				final int  ix = i;
+				
+				
 				data[j][i].getLabel().addMouseListener(new MouseListener() {
+					
+					
 					
 					@Override
 					public void mouseReleased(MouseEvent e) {
@@ -76,49 +86,20 @@ public class GameJPanel extends JPanel implements ActionListener{
 						// TODO Auto-generated method stub
 						
 					}
-					
+
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						// TODO Auto-generated method stub
-						//试探周围的在前一次中是否被点击过
-						if(blockArgsData.checkArge( jy+1, ix)!=null&&data[jy+1][ix].getLabel().exchage==true){
-							if(blockArgsData.exchangeloc(jy, ix, jy+1, ix)){
-								
-							}else{
-								
-							}
-								
-						}
-						if(blockArgsData.checkArge( jy-1, ix)!=null&&data[jy-1][ix].getLabel().exchage==true){
-							if(blockArgsData.exchangeloc(jy, ix, jy-1, ix)){
-								
-							}else{
-								
-							}
-								
-						}
-						if(blockArgsData.checkArge( jy, ix+1)!=null&&data[jy][ix+1].getLabel().exchage==true){
-							if(blockArgsData.exchangeloc(jy, ix, jy, ix+1)){
-								
-							}else{
-								
-							}
-								
-						}
-						if(blockArgsData.checkArge( jy, ix-1)!=null&&data[jy][ix-1].getLabel().exchage==true){
-							if(blockArgsData.exchangeloc(jy, ix, jy, ix-1)){
-								
-							}else{
-								
-							}
-								
-						}
-						
-						
-						
-						
+						if(GameJPanel.lock)
+						GameJPanel.this.mouseExchage(jy,ix);
 					}
-				});
+					
+				
+						
+					
+
+				
+				} );
 			}
 		}
 		
@@ -129,14 +110,158 @@ public class GameJPanel extends JPanel implements ActionListener{
 		
 		
 		
-//		{
-//			 Button b1 = new Button("启动"); 
-//			 add(b1);
-//			 b1.setBounds(300, 500, 100, 50);
-//			 b1.addActionListener(this);
-//			}
-			
+
 	}
+	
+	
+	static boolean lock =true;
+	static int jb=-1;
+	static int ib=-1;
+	private void mouseExchage(int j,int i){
+		
+		if(j==jb&&(ib==i-1||ib==i+1)){
+			lock=false;
+				  	exchage(j,i,jb,ib);
+				  
+				  
+			
+		}else if(i==ib&&(jb==j-1||jb==j+1)){
+			lock=false;
+					exchage(j,i,jb,ib);
+				
+				
+				
+		}else {
+			if(jb!=-1){
+			data[jb][ib].getLabel().setBorder(BorderFactory.createEmptyBorder());}
+			jb=	j;
+			ib=	i;
+			data[j][i].getLabel().setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
+
+		}
+		
+		
+			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	}
+	  public void exchage(int j1,int i1,int j2,int i2){	
+		  
+		  new Thread(new Runnable() {//开辟一个工作线程
+				@Override
+				public void run() {
+					t1 = new Thread(data[j1][i1].getLabel());
+					t2 = new Thread(data[j2][i2].getLabel());
+					data[j1][i1].getLabel().goThere(j2, i2);
+					data[j2][i2].getLabel().goThere(j1, i1);
+					t1.start();
+					t2.start();
+		
+						try {
+							t1.join();
+							t2.join();
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+						
+//						System.out.println("hello");
+						if(blockArgsData.exchangeloc(j1, i1, j2, i2)){
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							lock=true;
+							
+						}else{
+//							System.out.println("hello");
+							t1 = new Thread(data[j1][i1].getLabel());
+							t2 = new Thread(data[j2][i2].getLabel());
+							
+							data[j1][i1].getLabel().goThere(j1, i1);
+							data[j2][i2].getLabel().goThere(j2, i2);
+							
+							t1.start();
+							t2.start();
+							
+							lock=true;
+						}
+						
+				}
+			}).start();
+
+		  
+		  
+		  
+		  
+		  
+		  
+//		  
+//			t1 = new Thread(data[j1][i1].getLabel());
+//			t2 = new Thread(data[j2][i2].getLabel());
+//			data[j1][i1].getLabel().goThere(j2, i2);
+//			data[j2][i2].getLabel().goThere(j1, i1);
+//			t1.start();
+//			t2.start();
+//
+//			try {
+//				Thread.sleep(1000);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//				
+//				try {
+//					t1.join();
+//					t2.join();
+//				} catch (InterruptedException e) {
+//					// TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
+//				
+//				
+//				
+//				
+//				
+//					System.out.println("hello");
+//					if(blockArgsData.exchangeloc(j1, i1, j2, i2)){
+//						
+//					}else{
+//						System.out.println("hello");
+//						t1 = new Thread(data[j1][i1].getLabel());
+//						t2 = new Thread(data[j2][i2].getLabel());
+//						
+//						data[j1][i1].getLabel().goThere(j1, i1);
+//						data[j2][i2].getLabel().goThere(j2, i2);
+//						
+//						t1.start();
+//						t2.start();
+//						
+//					}
+//				
+				
+		
+			
+			
+			
+	  }
 	
 	
 	public void actionPerformed(ActionEvent e) {
@@ -155,3 +280,6 @@ public class GameJPanel extends JPanel implements ActionListener{
 
 
 }
+
+
+

@@ -2,9 +2,11 @@ package swingTest;
 
 
 
+import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -39,10 +41,15 @@ public class JLabelTest extends JLabel implements Runnable{
 		
 	myPoint nowLocation;
 	myPoint moveTO ;
-	boolean exchage = false;
+	
+	
+	static int x_zhou=-1;
+	static int y_zhou=-1;
+	
 	
 	public JLabelTest(int i ,int j,BlockEnum color){
-		
+		i=i*50;
+		j=j*50;
 		nowLocation = new myPoint(j, i);
 		moveTO = new myPoint(j, i);
 		switch(color){
@@ -74,7 +81,7 @@ public class JLabelTest extends JLabel implements Runnable{
 		
 		////绝对布局下设置位置和大小
 		setBounds(i, j, 50, 50);
-		System.out.println(i + " "+j);
+//		System.out.println(i + " "+j);
 //		addMouseListener(new MouseListener() {
 //			
 //			@Override
@@ -107,44 +114,70 @@ public class JLabelTest extends JLabel implements Runnable{
 //				System.out.println("asdasd");
 //			}
 //		});
+		
 	}
 	
 	
-	
+	public void goThere(int j, int i){
+		moveTO.x=i*50;
+		moveTO.y=j*50;
+	}
 	
 	
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		//	由于现在只需要考虑横移和竖移(难道还能斜移?)
-		//Y轴只能下移
+		final long time =100;
+		final int moveStrp=5;
 		if(nowLocation.y!=moveTO.y){
-		int distance =moveTO.y-nowLocation.y;
-		int move=0;
-		while(move<=distance){
-		this.setLocation(nowLocation.x, nowLocation.y+move);
-		this.repaint();
-		move+=5;
-		try {
-			Thread.sleep(10);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		}
-		
+			if(moveTO.y>nowLocation.y){
+			
+				int distance =moveTO.y-nowLocation.y;
+				int move=0;
+				while(move<=distance){
+				this.setLocation(nowLocation.x, nowLocation.y+move);
+				
+				this.repaint();
+				move+=moveStrp;
+				try {
+					Thread.sleep(time);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				}
+			}else{
+				int distance =nowLocation.y-moveTO.y;
+				int move=0;
+				while(move<=distance){
+				this.setLocation(nowLocation.x, nowLocation.y-move);
+				this.repaint();
+				move+=moveStrp;
+				try {
+					Thread.sleep(time);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				}
+			}
 		
 		}else if(nowLocation.x!=moveTO.x){
+			
 			if(moveTO.x>nowLocation.x){
+				
 				int distance =moveTO.x-nowLocation.x;
 				int move=0;
+				
 				while(move<=distance){
 				this.setLocation(nowLocation.x+move, nowLocation.y);
 				this.repaint();
-				move+=5;
+				move+=moveStrp;
 				try {
-					Thread.sleep(10);
+					Thread.sleep(time);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -156,11 +189,14 @@ public class JLabelTest extends JLabel implements Runnable{
 				int distance =nowLocation.x-moveTO.x;
 				int move=0;
 				while(move<=distance){
-				this.setLocation(nowLocation.x+move, nowLocation.y);
+					
+				this.setLocation(nowLocation.x-move, nowLocation.y);
+				
 				this.repaint();
-				move+=5;
+				
+				move+=moveStrp;
 				try {
-					Thread.sleep(10);
+					Thread.sleep(time);
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -174,6 +210,9 @@ public class JLabelTest extends JLabel implements Runnable{
 			
 			
 		}
+	
+		nowLocation.x=moveTO.x;
+		nowLocation.y=moveTO.y;
 	}
 
 

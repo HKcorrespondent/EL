@@ -49,7 +49,7 @@ public class CommonGem {
 		abscissa = i;
 		ordinate=j;
 		color=c;
-		label =new JLabelTest(i*50, j*50, c);
+		label =new JLabelTest(i, j, c);
 	}
 
 	/*
