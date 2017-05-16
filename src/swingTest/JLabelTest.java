@@ -146,10 +146,15 @@ public class JLabelTest extends JLabel implements Runnable{
 
 	static	Icon common4 = new ImageIcon(JLabelTest.class.getResource("总消4.png"));
 	
-	public void elimX( ){
+	
+	private final static int delayTime =100;
+	/*
+	 * 制作普通消除的特效
+	 */
+	public void commonElimSpecialEffects( ){
 	
 		
-		System.out.println("!!");
+		
 		new Thread(new Runnable() {
 			
 			@Override
@@ -163,7 +168,7 @@ public class JLabelTest extends JLabel implements Runnable{
 			
 			setIcon(common1);
 			try {
-				Thread.sleep(180);
+				Thread.sleep(delayTime);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -171,7 +176,7 @@ public class JLabelTest extends JLabel implements Runnable{
 
 			setIcon(common2);
 			try {
-				Thread.sleep(180);
+				Thread.sleep(delayTime);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -179,7 +184,7 @@ public class JLabelTest extends JLabel implements Runnable{
 
 			setIcon(common3);
 			try {
-				Thread.sleep(180);
+				Thread.sleep(delayTime);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -187,7 +192,7 @@ public class JLabelTest extends JLabel implements Runnable{
 
 			setIcon(common4);
 			try {
-				Thread.sleep(180);
+				Thread.sleep(delayTime);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -196,15 +201,22 @@ public class JLabelTest extends JLabel implements Runnable{
 				
 			}
 		}).start();;
+		
+		
 	}
 	
 	
+	
+	
+	private static final int thelimittime=20;
+	private static final int theslowtime=5;
+	private static final int moveStrp=10;
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
 		//	由于现在只需要考虑横移和竖移(难道还能斜移?)
-		long time =20;
-		final int moveStrp=10;
+		long time =50;
+		
 		if(nowLocation.y!=moveTO.y){
 			if(moveTO.y>nowLocation.y){
 			
@@ -221,7 +233,9 @@ public class JLabelTest extends JLabel implements Runnable{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+					if(time>=thelimittime){
+						time-=theslowtime;
+					}
 				}
 			}else{
 				int distance =nowLocation.y-moveTO.y;
@@ -236,7 +250,9 @@ public class JLabelTest extends JLabel implements Runnable{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+					if(time>=thelimittime){
+						time-=theslowtime;
+					}
 				}
 			}
 		
@@ -259,7 +275,9 @@ public class JLabelTest extends JLabel implements Runnable{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+					if(time>=thelimittime){
+						time-=theslowtime;
+					}
 				}
 				
 			}else{
@@ -278,7 +296,9 @@ public class JLabelTest extends JLabel implements Runnable{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+					if(time>=thelimittime){
+						time-=theslowtime;
+					}
 				}
 			}
 			

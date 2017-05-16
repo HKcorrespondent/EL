@@ -448,15 +448,14 @@ public class BlockArgsData {
 		}
 		
 		/**
-		 * 掉落函数,在已经消除的情况下掉落,记录下每个宝石掉落的距离,计入数组drop中作为返回值，提供给动画制作。
+		 * 掉落函数,在已经消除的情况下掉落,返回产生了掉落的方块.
 		 * 
 		 */	 
 		 public List<CommonGem> drop(){
 			 
 			 
 			 
-			 int[][] drop=new int[height][width];
-		
+			 
 			 
 			 int[] fail = new int[width];
 			

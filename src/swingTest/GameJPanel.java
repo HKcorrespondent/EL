@@ -4,6 +4,8 @@ package swingTest;
 
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -13,14 +15,17 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-import com.sun.prism.Image;
+
+
 
 import elimGame2.BlockArgsData;
 import elimGame2.BlockEnum;
 import elimGame2.CommonGem;
+import sun.swing.ImageCache;
 
 public class GameJPanel extends JPanel implements ActionListener{
 	
@@ -36,18 +41,30 @@ public class GameJPanel extends JPanel implements ActionListener{
 
 	Thread t2 ;
 	
-	java.awt.Image	backGroundImage = new ImageIcon ("C:\\Users\\asus\\Desktop\\sucai\\big.jpg").getImage();
-	
+
+	static	ImageIcon kuangIcon = new ImageIcon(JFrameTest.class.getResource("kuang.png"));
+	 Image kuang=kuangIcon.getImage();
+	public void paintComponent(Graphics g) {  
+        super.paintComponent(g);  
+      
+       
+		g.drawImage(kuang, 0, 0,this.getWidth(), this.getHeight(), this);  
+    }  
+
 	BlockArgsData blockArgsData;
 	CommonGem[][] data;
 	int height;
 	int width;
 	
+	 
+	 
+	 
 	public GameJPanel() {
 		// TODO Auto-generated constructor stub
 		setLayout(null);
 		//绝对布局下设置位置和大小
-		setBounds(100,100,400,600);
+		setBounds(100,200,400,500);
+		setOpaque(false);
 		
 		height=10 ;
 		width=8 ;
@@ -440,30 +457,31 @@ public class GameJPanel extends JPanel implements ActionListener{
 			
 			
 		
-			
-			for(CommonGem g :listElim){
-				g.getLabel().elimX();
 				
-			
-			}
-			GameJPanel.this.repaint();
-			
-			
-			
-
+				for(CommonGem g :listElim){
+					g.getLabel().commonElimSpecialEffects();
+					
+				
+				}
+				
+				
+				
+				
+			//等待动画结束??
 			try {
-				
-				
-				
-				
-				
-				
-				Thread.sleep(1000);
+
+				Thread.sleep(400);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			//是的
 			
+			
+			
+			
+			
+//			GameJPanel.this.repaint();
 			
 			//加入新升级的方块和新产生的方块
 			for(CommonGem g :listdrop){
@@ -520,7 +538,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 				
 			}
 			//去除被消掉的方块
-			GameJPanel.this.repaint();
+//			GameJPanel.this.repaint();
 			
 			for(CommonGem g :listElim){
 				GameJPanel.this.remove(g.getLabel());
@@ -529,7 +547,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 			
 			
 			GameJPanel.this.repaint();
-			System.out.println("diaoluo");
+		
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e1) {
