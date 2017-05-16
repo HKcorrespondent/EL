@@ -47,7 +47,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 		// TODO Auto-generated constructor stub
 		setLayout(null);
 		//绝对布局下设置位置和大小
-		setBounds(20,20,400,600);
+		setBounds(100,100,400,600);
 		
 		height=10 ;
 		width=8 ;
@@ -61,8 +61,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 		for(int i =0;i<width;i++){
 			for(int j =0;j<height;j++){
 				add(data[j][i].getLabel());
-				final int  jy = j;
-				final int  ix = i;
+				
 				
 				
 				data[j][i].getLabel().addMouseListener(new MouseListener() {
@@ -72,7 +71,10 @@ public class GameJPanel extends JPanel implements ActionListener{
 					@Override
 					public void mouseReleased(MouseEvent e) {
 						// TODO Auto-generated method stub
-						
+						if(GameJPanel.lock){
+							
+							GameJPanel.this.mouseExchage(e.getComponent().getY()/50,e.getComponent().getX()/50);
+							}
 					}
 					
 					@Override
@@ -96,10 +98,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						// TODO Auto-generated method stub
-						if(GameJPanel.lock){
-							System.out.println(e.getComponent().getY()/50+"  "+e.getComponent().getX()/50);
-						GameJPanel.this.mouseExchage(e.getComponent().getY()/50,e.getComponent().getX()/50);
-						}
+						
 					}
 					
 				
@@ -137,21 +136,24 @@ public class GameJPanel extends JPanel implements ActionListener{
 		
 		
 		
-		if(j==jb&&(ib==i-1||ib==i+1)){
-			lock=false;
-				  	exchage(j,i,jb,ib);
-				  
-				  
+		if((i==ib&&(jb==j-1||jb==j+1))||(j==jb&&(ib==i-1||ib==i+1))){
+			data[jb][ib].getLabel().setBorder(BorderFactory.createEmptyBorder());
 			
-		}else if(i==ib&&(jb==j-1||jb==j+1)){
 			lock=false;
-					exchage(j,i,jb,ib);
-				
-				
-				
+				  if(!exchage(j,i,jb,ib)){
+					  data[jb][ib].getLabel().setBorder(BorderFactory.createEmptyBorder());
+					  
+					  
+				  }
+				  
+			jb=-1;
+			ib=-1;	  
+			
 		}else {
+			System.out.println(jb+" "+ib);
 			if(jb!=-1){
-			data[jb][ib].getLabel().setBorder(BorderFactory.createEmptyBorder());}
+				data[jb][ib].getLabel().setBorder(BorderFactory.createEmptyBorder());
+			}
 			jb=	j;
 			ib=	i;
 			data[j][i].getLabel().setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY));
@@ -171,7 +173,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 		
 		
 	}
-	  public void exchage(int j1,int i1,int j2,int i2){	
+	  public boolean exchage(int j1,int i1,int j2,int i2){	
 		  
 		  new Thread(new Runnable() {//开辟一个工作线程
 				@Override
@@ -196,132 +198,136 @@ public class GameJPanel extends JPanel implements ActionListener{
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							
-							List<CommonGem> elimList = blockArgsData.elim();
-						
-							
-							
-							
-							
-							List<CommonGem> listdrop =blockArgsData.drop();
-		
-							
-							
-							
-							System.out.println("消除数量"+elimList.size());
-							
-						
-							
-							GameJPanel.this.repaint();
-							
-							for(CommonGem g :listdrop){
-								
-								
-								if(g.getLabel().newGet){
-									GameJPanel.this.add(g.getLabel());
-									g.getLabel().newGet=false;
-								g.getLabel().addMouseListener(new MouseListener() {
-									
-									
-									
-									@Override
-									public void mouseReleased(MouseEvent e) {
-										// TODO Auto-generated method stub
-										
-									}
-									
-									@Override
-									public void mousePressed(MouseEvent e) {
-										// TODO Auto-generated method stub
-										
-									}
-									
-									@Override
-									public void mouseExited(MouseEvent e) {
-										// TODO Auto-generated method stub
-										
-									}
-									
-									@Override
-									public void mouseEntered(MouseEvent e) {
-										// TODO Auto-generated method stub
-										
-									}
-
-									@Override
-									public void mouseClicked(MouseEvent e) {
-										// TODO Auto-generated method stub
-										if(GameJPanel.lock){
-											
-											
-								
-										GameJPanel.this.mouseExchage(e.getComponent().getY()/50,e.getComponent().getX()/50);
-										}
-									}
-									
-								
-										
-									
-
-								
-								});
-								}
-							}
-							for(CommonGem g :elimList){
-								GameJPanel.this.remove(g.getLabel());
-							}
-							GameJPanel.this.repaint();
-							
-							System.out.println("掉落的数量"+listdrop.size());
-							ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(80);  
-							for(CommonGem g :listdrop){
-								
-								scheduledThreadPool.execute(new Thread(g.getLabel()));
-								 
-								
-							}
-							scheduledThreadPool.shutdown();
-							while(true){
-								if(scheduledThreadPool.isTerminated()){
-									
-									break;
-								}
-							
-								try {
-									Thread.sleep(50);
-								} catch (InterruptedException e) {
-									// TODO Auto-generated catch block
-									e.printStackTrace();
-								}
-							}
-							
-							
 //							
-							
-							GameJPanel.this.repaint();
-							
+//							List<CommonGem> listElim = blockArgsData.elim();					
+//							List<CommonGem> listdrop =blockArgsData.drop();
+//		
+//
+//							
+//							System.out.println("消除数量"+listElim.size());
+//							
+//						
+//							
+//							GameJPanel.this.repaint();
+//							
+//							
+//							for(CommonGem g :listdrop){
+//								
+//								
+//								
+//								if(g.getLabel().newGet){
+//									GameJPanel.this.add(g.getLabel());
+//									g.getLabel().newGet=false;
+//								g.getLabel().addMouseListener(new MouseListener() {
+//									
+//									
+//									
+//									@Override
+//									public void mouseReleased(MouseEvent e) {
+//										// TODO Auto-generated method stub
+//										
+//									}
+//									
+//									@Override
+//									public void mousePressed(MouseEvent e) {
+//										// TODO Auto-generated method stub
+//										
+//									}
+//									
+//									@Override
+//									public void mouseExited(MouseEvent e) {
+//										// TODO Auto-generated method stub
+//										
+//									}
+//									
+//									@Override
+//									public void mouseEntered(MouseEvent e) {
+//										// TODO Auto-generated method stub
+//										
+//									}
+//
+//									@Override
+//									public void mouseClicked(MouseEvent e) {
+//										// TODO Auto-generated method stub
+//										if(GameJPanel.lock){
+//										GameJPanel.this.mouseExchage(e.getComponent().getY()/50,e.getComponent().getX()/50);
+//										}
+//									}
+//									
+//								
+//										
+//									
+//
+//								
+//								});
+//								}
+//							}
+//
+//							try {
+//								Thread.sleep(500);
+//							} catch (InterruptedException e1) {
+//								// TODO Auto-generated catch block
+//								e1.printStackTrace();
+//							}
+//							
+//							
+//							for(CommonGem g :listElim){
+//
+//								
+//								GameJPanel.this.remove(g.getLabel());
+//							}
+//							
+//							
+//							
+//							
+//							GameJPanel.this.repaint();
+//							
+//
+//							ScheduledExecutorService scheduledThreadPool = Executors.newScheduledThreadPool(80);  
+//							for(CommonGem g :listdrop){
+//								
+//								scheduledThreadPool.execute(new Thread(g.getLabel()));
+//								 
+//								
+//							}
+//							scheduledThreadPool.shutdown();
+//							while(true){
+//								if(scheduledThreadPool.isTerminated()){
+//									
+//									break;
+//								}
+//							
+//								try {
+//									Thread.sleep(10);
+//								} catch (InterruptedException e) {
+//									// TODO Auto-generated catch block
+//									e.printStackTrace();
+//								}
+//							}
+//							
+//							
+////							
+//
+//							
+//
+//							
+//							listElim.clear();
+//							listdrop.clear();
+//							
+//
+////							continue2Elim();
+							continue2Elim();
+							while(blockArgsData.isAbleElim()){
+								continue2Elim();
+							}
 							
 							jb=-1;
 							ib=-1;
 							lock=true;
 							
-							blockArgsData.showData(data);
-//							blockArgsData.cleanChangelist();
 							
 							
 							
-//							GameJPanel.this.removeAll();
-//							for(int i =0;i<width;i++){
-//								for(int j =0;j<height;j++){
-//									add(data[j][i].getLabel());
-//							
-//								}
-//							}
-//							GameJPanel.this.repaint();
-//							System.out.println("OK");
-							
-							
-
 						}else{
 
 							try {
@@ -347,20 +353,222 @@ public class GameJPanel extends JPanel implements ActionListener{
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
+							
 							lock=true;
 						}
 						
 				}
 			}).start();
 
-		  	jb=-1;
-			ib=-1;
-		  
-		  System.out.println(ib+"  "+jb);
+		  	
+		  return true;
+		 
 		  
 			
 	  }
-	
+	  
+	  
+
+	public void continue2Elim(){
+		
+		
+		{
+			List<CommonGem> listElim ;					
+			List<CommonGem> listdrop ;
+			ScheduledExecutorService scheduledThreadPool;
+			
+			listElim = blockArgsData.elim();
+			listdrop =blockArgsData.drop();
+			scheduledThreadPool = Executors.newScheduledThreadPool(80);  
+			
+			
+			
+
+			for(CommonGem g :listdrop){
+				
+				
+				if(g.getLabel().newGet&&g.getLabel().specialGem!=0){
+					GameJPanel.this.add(g.getLabel());
+					g.getLabel().newGet=false;
+				g.getLabel().addMouseListener(new MouseListener() {
+					
+					
+					
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						if(GameJPanel.lock){
+							GameJPanel.this.mouseExchage(e.getComponent().getY()/50,e.getComponent().getX()/50);
+							}
+					}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+				
+						
+					
+
+				
+				});
+				}
+				
+				
+			}
+			
+			
+			
+		
+			
+			for(CommonGem g :listElim){
+				g.getLabel().elimX();
+				
+			
+			}
+			GameJPanel.this.repaint();
+			
+			
+			
+
+			try {
+				
+				
+				
+				
+				
+				
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			
+			//加入新升级的方块和新产生的方块
+			for(CommonGem g :listdrop){
+				
+				
+				if(g.getLabel().newGet&&g.getLabel().specialGem==0){
+					GameJPanel.this.add(g.getLabel());
+			
+					g.getLabel().newGet=false;
+				g.getLabel().addMouseListener(new MouseListener() {
+					
+					
+					
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						if(GameJPanel.lock){
+							GameJPanel.this.mouseExchage(e.getComponent().getY()/50,e.getComponent().getX()/50);
+							}
+					}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+				
+						
+					
+
+				
+				});
+				}
+				
+				
+			}
+			//去除被消掉的方块
+			GameJPanel.this.repaint();
+			
+			for(CommonGem g :listElim){
+				GameJPanel.this.remove(g.getLabel());
+			
+			}
+			
+			
+			GameJPanel.this.repaint();
+			System.out.println("diaoluo");
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			//模拟掉落
+				for(CommonGem g :listdrop){
+					
+					scheduledThreadPool.execute(new Thread(g.getLabel()));
+					 
+					
+				}
+				
+//				GameJPanel.this.repaint();
+				scheduledThreadPool.shutdown();
+				
+			while(true){
+				if(scheduledThreadPool.isTerminated()){
+					
+					break;
+				}
+			
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			
+			GameJPanel.this.repaint();
+			listElim.clear();
+			listdrop.clear();
+
+			}
+	}
 	
 	public void actionPerformed(ActionEvent e) {
 //		JLabelTest1.moveTO.x=100;

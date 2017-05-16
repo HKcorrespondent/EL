@@ -10,55 +10,55 @@ import java.util.Scanner;
 
 
 public class BlockArgsData {
-	public static void main(String[] args) {
-		long startTime=System.nanoTime();   //获取开始时间  //记录程序开始时间
-		System.out.println((int)(Math.random()*6+1));
-		
-		BlockArgsData data = new BlockArgsData(5, 5);
-		data.initializeData();
-		data.argsData[0][0]=new CommonGem(BlockEnum.YELLOW, 0, 0);
-		data.argsData[0][1]=new LinearGem(BlockEnum.BLUE, 1, 0);
-		data.argsData[0][2]=new CommonGem(BlockEnum.RED, 2, 0);
-		data.argsData[0][3]=new CommonGem(BlockEnum.BLUE, 3, 0);
-		data.argsData[0][4]=new CommonGem(BlockEnum.YELLOW, 4, 0);
-		
-		data.argsData[1][0]=new CommonGem(BlockEnum.BLUE, 0, 1);
-		data.argsData[1][1]=new CommonGem(BlockEnum.RED, 1, 1);
-		data.argsData[1][2]=new CommonGem(BlockEnum.BLUE, 2, 1);
-		data.argsData[1][3]=new CommonGem(BlockEnum.BLUE, 3, 1);
-		data.argsData[1][4]=new CommonGem(BlockEnum.YELLOW, 4, 1);
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		data.showData(data.argsData);
-		System.out.println();
-		data.isAbleElim();
-		data.showData(data.argsData);
-		
-		System.out.println("isDead: "+data.isDead());
-		
-		int i=0;
-		while(i<10){
-			Scanner in =new Scanner(System.in);
-			System.out.println(
-			data.exchangeloc(in.nextInt(), in.nextInt(), in.nextInt(), in.nextInt()));
-			System.out.println(data.elim().size());
-			data.showData(data.argsData);
-			data.drop();
-			data.showData(data.argsData);
-		}
-		
-		
-	}
+//	public static void main(String[] args) {
+//		long startTime=System.nanoTime();   //获取开始时间  //记录程序开始时间
+//		System.out.println((int)(Math.random()*6+1));
+//		
+//		BlockArgsData data = new BlockArgsData(5, 5);
+//		data.initializeData();
+//		data.argsData[0][0]=new CommonGem(BlockEnum.YELLOW, 0, 0);
+//		data.argsData[0][1]=new LinearGem(BlockEnum.BLUE, 1, 0);
+//		data.argsData[0][2]=new CommonGem(BlockEnum.RED, 2, 0);
+//		data.argsData[0][3]=new CommonGem(BlockEnum.BLUE, 3, 0);
+//		data.argsData[0][4]=new CommonGem(BlockEnum.YELLOW, 4, 0);
+//		
+//		data.argsData[1][0]=new CommonGem(BlockEnum.BLUE, 0, 1);
+//		data.argsData[1][1]=new CommonGem(BlockEnum.RED, 1, 1);
+//		data.argsData[1][2]=new CommonGem(BlockEnum.BLUE, 2, 1);
+//		data.argsData[1][3]=new CommonGem(BlockEnum.BLUE, 3, 1);
+//		data.argsData[1][4]=new CommonGem(BlockEnum.YELLOW, 4, 1);
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		
+//		data.showData(data.argsData);
+//		System.out.println();
+//		data.isAbleElim();
+//		data.showData(data.argsData);
+//		
+//		System.out.println("isDead: "+data.isDead());
+//		
+//		int i=0;
+//		while(i<10){
+//			Scanner in =new Scanner(System.in);
+//			System.out.println(
+//			data.exchangeloc(in.nextInt(), in.nextInt(), in.nextInt(), in.nextInt()));
+//			System.out.println(data.elim().size());
+//			data.showData(data.argsData);
+//			data.drop();
+//			data.showData(data.argsData);
+//		}
+//		
+//		
+//	}
 	
 	
 	
@@ -356,9 +356,25 @@ public class BlockArgsData {
 		 */
 		
 		public boolean exchangeloc(int j1,int i1,int j2,int i2){
+
 			CommonGem gem1=checkArge(j1, i1);
 			CommonGem gem2=checkArge(j2, i2);
+			
+			
+			
+			
 			if(gem1!=null&&gem2!=null){
+				//如果交换中出现彩色宝石
+					{
+						
+						if(gem1.isColorizedGem||(gem2.isColorizedGem)){
+							
+							
+							return true;
+						}
+
+					}
+				
 				argsData[j2][i2]=gem1;
 				argsData[j1][i1]=gem2;
 				if(isAbleElim()){
@@ -389,11 +405,12 @@ public class BlockArgsData {
 			}
 			
 		}
+		private static List<CommonGem> changeList=new ArrayList<CommonGem>();
 		/**
 		 * 在调用该函数之前,应该确认已经将可消除的元素标记
 		 * @return 返回一个List其中是应该被消除的方块的调用,并且把能升级为特效宝石的方块进行了升级
 		 */	 
-		static List<CommonGem> changeList=new ArrayList<CommonGem>();
+		
 		public List<CommonGem> elim(){
 			List<CommonGem> list=new ArrayList<CommonGem>();
 			CommonGem.setClean();
@@ -413,13 +430,14 @@ public class BlockArgsData {
 				}
 			}
 			for(int t : CommonGem.getset()){
-				
+				System.out.println(t);
 				int j=t/100;
 				int i=t%100;
 				list.add(argsData[j][i]);
 				argsData[j][i]=argsData[j][i].levelUp();
 				if(argsData[j][i]!=null){
-//					list.add(argsData[j][i]);
+					changeList.add(argsData[j][i]);
+					argsData[j][i].getLabel().newGet=true;
 				}
 			}
 			
@@ -434,7 +452,7 @@ public class BlockArgsData {
 		 * 
 		 */	 
 		 public List<CommonGem> drop(){
-			 long startTime=System.nanoTime();   //获取开始时间  //记录程序开始时间
+			 
 			 
 			 
 			 int[][] drop=new int[height][width];
@@ -469,6 +487,7 @@ public class BlockArgsData {
 						 
 						 argsData[j+(move)][i]=argsData[j][i];
 						 argsData[j][i]=null;
+						 
 					 }
 				 }
 			 
@@ -483,8 +502,12 @@ public class BlockArgsData {
 				 
 				 for(int j=height-1;j>=0;j--){
 					 if(argsData[j][i]==null){
-						 argsData[j][i]=new CommonGem(intTOcolor((int)(Math.random()*6+1)), i, j);
-						 argsData[j][i].getLabel().nowLocation=new myPoint((j-move)*50, i*50);
+						 System.out.println(j+" "+i);
+						 argsData[j][i]=new CommonGem(intTOcolor((int)(Math.random()*6+1)));
+						 argsData[j][i].buildTopGem(i, j, move);
+
+						 
+						 
 						 argsData[j][i].getLabel().newGet=true;
 						 changeList.add(argsData[j][i]);
 						 
