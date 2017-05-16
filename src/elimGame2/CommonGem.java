@@ -4,10 +4,22 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
+import com.sun.prism.Image;
+
+import sun.awt.image.GifImageDecoder;
 import swingTest.JLabelTest;
 
 //2.	玩家可以置换相邻两块宝石的位置，只有三个或三个以上相同宝石在同一行或同一列才能消除成功，如果置换后未能消除成功则两块宝石回到初始位置。
-public class CommonGem {
+public class CommonGem implements Runnable {
+	
+	
+	
+	
+	
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		CommonGem cg =new CommonGem(BlockEnum.BLUE,0,0);
@@ -16,14 +28,18 @@ public class CommonGem {
 		System.out.println(cg.equals(Lg));
 	}
 	//######################################
+	
+	
+//	static	java.net.URL imgURLCommonGif = JLabelTest.class.getResource("commonGem.gif");
+//	static	Icon gif = new ImageIcon(imgURLCommonGif);
 	//######################################
 	public static int height;
 	public static int width;
 	
 	//横坐标
-	protected int abscissa ;
+	public int abscissa ;
 	//纵坐标
-	protected int ordinate ;
+	public int ordinate ;
 	public final BlockEnum color ;
 	//消除时的一起消除的方块个数.可以用来产生不同的特效宝石
 	
@@ -34,14 +50,29 @@ public class CommonGem {
 	//是否可以成为特效宝石
 	boolean canLevelUp = false;
 	//该方块应该掉落多少
-	private int needMove = 0;
+	int needMove = 0;
 	//
-	private JLabelTest label ;
+	protected JLabelTest label ;
 	
 	public JLabelTest getLabel(){
 		return label;
 		
 	}
+	//用来特殊构造
+	public CommonGem(BlockEnum c){
+		color=c;
+		
+	}
+	
+	public void buildTopGem(int i,int j,int move){
+		abscissa = i;
+		ordinate=j;
+		label =new JLabelTest(i, j-move, color);
+		label.goThere(j, i);
+	}
+	
+	
+	
 	
 	
 	public CommonGem(BlockEnum c,int i,int j) {
@@ -57,6 +88,8 @@ public class CommonGem {
 	 * 移动是指在坐标上从上往下的距离
 	 */
 	public int move(){
+		ordinate+=needMove;
+		label.goThere(ordinate,abscissa );
 		int move =needMove;
 		needMove= 0;
 		return move;
@@ -79,6 +112,10 @@ public class CommonGem {
 			
 			return ;
 	}
+	
+	
+	
+	boolean isColorizedGem =false;
 	public CommonGem levelUp(){
 		if(canLevelUp){
 			if(countAB>4||countOR>4)
@@ -107,7 +144,14 @@ public class CommonGem {
 		}
 		return null;
 	}
-	
+	public void renew(int j,int i){
+		abscissa=i;
+		ordinate=j;
+		label.goThere(j,i);
+		label.nowLocation.x=i*50;
+		label.nowLocation.y=j*50;
+		
+	}
 	
 	
 	 @Override
@@ -124,5 +168,18 @@ public class CommonGem {
 	 
 	public String getColor(){
 		return this.color.colour+"色";
+	}
+
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		int x =label.nowLocation.x;
+		int y =label.nowLocation.y;
+//		gif.paintIcon(label, null, x, y);
+		
+		
+		
+		
 	} 
 }
