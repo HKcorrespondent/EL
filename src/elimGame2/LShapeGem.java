@@ -26,7 +26,7 @@ public class LShapeGem extends CommonGem {
 		
 			for(int i =abscissa-1;i<=abscissa+1;i++){
 				for(int j =ordinate-1;j<=ordinate+1;j++){
-					set.add(check(j,i));
+					setEmilBySpecial.add(check(j,i));
 				}
 			}
 

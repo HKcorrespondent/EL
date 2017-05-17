@@ -11,7 +11,7 @@ public class ColorizedGem extends CommonGem {
 
 
 	static	Icon colorized = new ImageIcon(JLabelTest.class.getResource("colorized.png"));
-
+	
 	public ColorizedGem(BlockEnum c, int i, int j) {
 		super(BlockEnum.ELIM);
 		// TODO Auto-generated constructor stub
@@ -21,9 +21,38 @@ public class ColorizedGem extends CommonGem {
 		label =new JLabelTest(i, j, BlockEnum.ELIM, 4, colorized);
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
+	@Override
+	public	void elim(){
+		
+		setEmilBySpecial.add(ordinate*100+abscissa);
+		//problem
+		if(elimByColor==BlockEnum.ELIM){
+			for(int i =0;i<width;i++){
+				for(int j=0;j<height;j++)
+				setEmilBySpecial.add(j*100+i);
+			}
+		
+		}else{
+			final CommonGem[][] data=BlockArgsData.getArgs();
+			for(int j=0;j<height;j++){
+				for(int i=0;i<width;i++){
+					if(data[j][i].color==elimByColor){
+						setEmilBySpecial.add(data[j][i].ordinate*100+data[j][i].abscissa);
+					}
+				}
+			}
+			
+		}
+		
+		
+		
+		
+		
+		
+		
+	
+		
+		return ;
+}
 
 }

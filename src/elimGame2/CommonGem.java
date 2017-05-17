@@ -54,6 +54,11 @@ public class CommonGem implements Runnable {
 	//
 	protected JLabelTest label ;
 	
+	
+	
+	boolean isColorizedGem =false;
+	BlockEnum elimByColor =null;
+	
 	public JLabelTest getLabel(){
 		return label;
 		
@@ -97,15 +102,27 @@ public class CommonGem implements Runnable {
 	}
 	
 	protected static Set<Integer> set=new HashSet<Integer>();
-	
+	protected static Set<Integer> setEmilBySpecial=new HashSet<Integer>();
 	public static void	setClean(){
 		set.clear();
+		setEmilBySpecial.clear();
 		}
 	
 	public static Set<Integer>	getset(){
 		
 		return set;
 		}
+	public static Set<Integer>	getNotCommonElimSet(){
+		
+		setEmilBySpecial.removeAll(set);
+			
+		return setEmilBySpecial;
+			
+		}
+	
+	
+	
+	
 	
 	public	void elim(){
 			set.add(ordinate*100+abscissa);
@@ -115,7 +132,7 @@ public class CommonGem implements Runnable {
 	
 	
 	
-	boolean isColorizedGem =false;
+	
 	public CommonGem levelUp(){
 		if(canLevelUp){
 			if(countAB>4||countOR>4)
@@ -131,7 +148,7 @@ public class CommonGem implements Runnable {
 			
 			if(countAB==4||countOR==4)	
 			{
-				return new LinearGem(color, abscissa, ordinate);
+				return new LinearGem(color, abscissa, ordinate,countAB>countOR);
 			}	
 			
 			if(countAB==3&&countOR==3)

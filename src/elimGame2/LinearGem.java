@@ -18,14 +18,16 @@ public class LinearGem extends CommonGem {
 	static	Icon LinearRed = new ImageIcon(JLabelTest.class.getResource("LinearRed.png"));
 	static	Icon LinearYellow = new ImageIcon(JLabelTest.class.getResource("LinearYellow.png"));
 	
+	//产生于横向或者纵向
+	boolean isAbabscissaElim;
 	
-	
-	
-	public LinearGem(BlockEnum c, int i, int j) {
+	public LinearGem(BlockEnum c, int i, int j,boolean isab) {
 		super(c);
 		// TODO Auto-generated constructor stub
 		abscissa = i;
 		ordinate=j;
+		isAbabscissaElim=isab;
+		
 		switch(c){
 		case BLUE:
 			label =new JLabelTest(i, j, c, 1, LinearBlue);
@@ -57,10 +59,9 @@ public class LinearGem extends CommonGem {
 		
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
-	}
+	
+	
 	@Override
 	public String getColor(){
 		return this.color.colour+"长";
@@ -69,13 +70,15 @@ public class LinearGem extends CommonGem {
 	@Override
 	public	void elim(){
 		//problem
-		if(countAB>=countOR){
+		
+		
+		if(isAbabscissaElim){
 			for(int i =0;i<width;i++){
-				set.add(ordinate*100+i);
+				setEmilBySpecial.add(ordinate*100+i);
 			}
 		}else{
 			for(int j=0;j<height;j++){
-				set.add(j*100+abscissa);
+				setEmilBySpecial.add(j*100+abscissa);
 			}
 		}
 		

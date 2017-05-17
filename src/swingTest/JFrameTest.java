@@ -62,6 +62,19 @@ public class JFrameTest extends JFrame{
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
+		
+		
+		
+		
+		
+		
+		gameStart();
+		
+		
+		
+	}
+	static public void gameStart(){
 		EventQueue.invokeLater(new Runnable()
 		{
 		public void run()
@@ -71,9 +84,8 @@ public class JFrameTest extends JFrame{
 			frame.setVisible(true);
 		}
 		});
-		
-		
-		
 	}
-
+	
+	
+	
 }
