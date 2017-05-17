@@ -2,8 +2,10 @@ package elimGame2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
 
 
@@ -63,7 +65,7 @@ public class BlockArgsData {
 	
 	
 	
-	private CommonGem[][] argsData ;
+	private static CommonGem[][] argsData ;
 	private final int height ;
 	private final int width ;
 	
@@ -75,11 +77,26 @@ public class BlockArgsData {
 		
 		
 	}
-	public CommonGem[][] getArgs(){
+	public static CommonGem[][] getArgs(){
 		return argsData;
 		
 	}
 	
+	
+	
+	public static void test(CommonGem[][] data){
+		data[0][0]=new ColorizedGem(BlockEnum.ELIM, 0, 0);
+//		data[0][1]=new LinearGem(BlockEnum.BLUE, 1, 0, false);
+//		data[0][2]=new CommonGem(BlockEnum.RED, 2, 0);
+//		data[0][3]=new CommonGem(BlockEnum.BLUE, 3, 0);
+//		data[0][4]=new CommonGem(BlockEnum.YELLOW, 4, 0);
+//		
+//		data[1][0]=new CommonGem(BlockEnum.BLUE, 0, 1);
+//		data[1][1]=new CommonGem(BlockEnum.RED, 1, 1);
+//		data[1][2]=new CommonGem(BlockEnum.BLUE, 2, 1);
+//		data[1][3]=new CommonGem(BlockEnum.BLUE, 3, 1);
+//		data[1][4]=new CommonGem(BlockEnum.YELLOW, 4, 1);
+	}
 	
 	
 	
@@ -236,7 +253,7 @@ public class BlockArgsData {
 						int countj =1;
 						int t =j-1;
 						while(t>=0){
-							if(this.argsData[j][i].equals(this.argsData[t][i])){
+							if(argsData[j][i].equals(argsData[t][i])){
 								countj++;
 								t--;
 							}else{ break; }
@@ -244,7 +261,7 @@ public class BlockArgsData {
 						}
 						t=j+1;
 						while(t<height){
-							if(this.argsData[j][i].equals(this.argsData[t][i])){
+							if(argsData[j][i].equals(argsData[t][i])){
 								countj++;
 								t++;
 							}else{ break; }
@@ -368,6 +385,16 @@ public class BlockArgsData {
 					{
 						
 						if(gem1.isColorizedGem||(gem2.isColorizedGem)){
+							gem2.isElim=true;
+							gem1.isElim=true;
+							if(gem1.isColorizedGem){
+								gem1.elimByColor=gem2.color;
+							
+							}else{
+								gem2.elimByColor=gem1.color;
+								
+							}
+							
 							
 							
 							return true;
@@ -405,6 +432,7 @@ public class BlockArgsData {
 			}
 			
 		}
+		//用来得到新产生的方块或者新升级的方块
 		private static List<CommonGem> changeList=new ArrayList<CommonGem>();
 		/**
 		 * 在调用该函数之前,应该确认已经将可消除的元素标记
@@ -413,7 +441,6 @@ public class BlockArgsData {
 		
 		public List<CommonGem> elim(){
 			List<CommonGem> list=new ArrayList<CommonGem>();
-			CommonGem.setClean();
 			for(int i =0;i<width;i++){
 				for(int j =0;j<height;j++){
 					if(argsData[j][i].isElim){
@@ -429,11 +456,46 @@ public class BlockArgsData {
 					}
 				}
 			}
-			for(int t : CommonGem.getset()){
-				System.out.println(t);
+			
+			//对所有非正常消除的元素处理
+			int size=0;
+			HashSet<Integer> notCommonElimSet=(HashSet<Integer>) ((HashSet<Integer>) CommonGem.getNotCommonElimSet()).clone();
+			
+			while(notCommonElimSet.size()!=size){
+			 size=notCommonElimSet.size();
+			 for(int t : notCommonElimSet){
+//					System.out.println(t);
+					int j=t/100;
+					int i=t%100;
+					argsData[j][i].elim();
+			 }
+			notCommonElimSet=(HashSet<Integer>) ((HashSet<Integer>) CommonGem.getNotCommonElimSet()).clone();
+				
+			 
+			}
+			System.out.println("notCommonElimSet="+notCommonElimSet.size());
+			for(int t : notCommonElimSet){
+//				System.out.println(t);
 				int j=t/100;
 				int i=t%100;
 				list.add(argsData[j][i]);
+				
+				//升级元素并加到清单中
+				argsData[j][i]=argsData[j][i].levelUp();
+				if(argsData[j][i]!=null){
+					changeList.add(argsData[j][i]);
+					argsData[j][i].getLabel().newGet=true;
+				}
+			}
+			//对所有的被一般消除的元素加到list中
+			System.out.println("CommonElimSet="+CommonGem.getset().size());
+			for(int t : CommonGem.getset()){
+//				System.out.println(t);
+				int j=t/100;
+				int i=t%100;
+				list.add(argsData[j][i]);
+				
+				//升级元素并加到清单中
 				argsData[j][i]=argsData[j][i].levelUp();
 				if(argsData[j][i]!=null){
 					changeList.add(argsData[j][i]);
@@ -444,6 +506,11 @@ public class BlockArgsData {
 			
 			
 			CommonGem.setClean();
+			
+			
+			
+			
+			
 			return list;
 		}
 		
@@ -495,7 +562,7 @@ public class BlockArgsData {
 			 
 			
 			
-			 
+			 //在最上方生成新的方块
 			 for(int i=0;i<width;i++){
 				 int move =fail[i];
 				 
@@ -505,7 +572,8 @@ public class BlockArgsData {
 						 argsData[j][i]=new CommonGem(intTOcolor((int)(Math.random()*6+1)));
 						 argsData[j][i].buildTopGem(i, j, move);
 
-						 
+						 //新的方块按理应该能升级,但是还没有考虑两块一样颜色的发生特效消除时都变成特效方块
+						 argsData[j][i].canLevelUp=true;
 						 
 						 argsData[j][i].getLabel().newGet=true;
 						 changeList.add(argsData[j][i]);
@@ -531,6 +599,14 @@ public class BlockArgsData {
 		 }
 		 public void cleanChangelist(){
 			 changeList.clear();
+			 for(int j =0;j<height;j++){
+				 for(int i=0;i<width;i++){
+					 argsData[j][i].canLevelUp=false; 
+				 }
+			 }
+			 
+			 
+			 
 		 }
 		
 }

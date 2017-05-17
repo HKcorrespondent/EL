@@ -36,7 +36,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 	
 	public static int heightNum = 10;
 	
-
+	
 	Thread t1 ;
 
 	Thread t2 ;
@@ -70,10 +70,15 @@ public class GameJPanel extends JPanel implements ActionListener{
 		width=8 ;
 		blockArgsData = new BlockArgsData(height, width);
 		blockArgsData.initializeData();
-		data = blockArgsData.getArgs();
+		data = BlockArgsData.getArgs();
 	
 		
+		//**********************************************************************************************
+		//下面是测试的时候为了产生特殊情况特意使用的函数由于这个导致其产生画面总是一样的
 		
+		 BlockArgsData.test(data);
+		
+		//*********************************************************************************
 		
 		for(int i =0;i<width;i++){
 			for(int j =0;j<height;j++){
@@ -334,8 +339,10 @@ public class GameJPanel extends JPanel implements ActionListener{
 //
 ////							continue2Elim();
 							continue2Elim();
+																			
 							while(blockArgsData.isAbleElim()){
-								continue2Elim();
+																			
+								continue2Elim();	
 							}
 							
 							jb=-1;
@@ -549,7 +556,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 			GameJPanel.this.repaint();
 		
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(300);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -584,6 +591,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 			GameJPanel.this.repaint();
 			listElim.clear();
 			listdrop.clear();
+			blockArgsData.cleanChangelist();
 
 			}
 	}

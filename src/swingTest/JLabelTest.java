@@ -162,7 +162,7 @@ public class JLabelTest extends JLabel implements Runnable{
 				// TODO Auto-generated method stub
 			setIcon(null);
 			
-			
+		
 			
 			
 			

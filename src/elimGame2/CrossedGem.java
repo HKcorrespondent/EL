@@ -32,11 +32,11 @@ public class CrossedGem extends CommonGem {
 		//problem
 		
 			for(int i =0;i<width;i++){
-				set.add(ordinate*100+i);
+				setEmilBySpecial.add(ordinate*100+i);
 			}
-		
+			
 			for(int j=0;j<height;j++){
-				set.add(j*100+abscissa);
+				setEmilBySpecial.add(j*100+abscissa);
 			}
 		
 		
