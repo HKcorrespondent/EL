@@ -11,14 +11,49 @@ public class LinearGem extends CommonGem {
 	
 	
 	
-	static	Icon Linear = new ImageIcon(JLabelTest.class.getResource("purple.jpg"));
+	static	Icon LinearBlue = new ImageIcon(JLabelTest.class.getResource("LinearBlue.png"));
+	static	Icon LinearGreen = new ImageIcon(JLabelTest.class.getResource("LinearGreen.png"));
+	static	Icon LinearOrange = new ImageIcon(JLabelTest.class.getResource("LinearOrange.png"));
+	static	Icon LinearPurple = new ImageIcon(JLabelTest.class.getResource("LinearPurple.png"));
+	static	Icon LinearRed = new ImageIcon(JLabelTest.class.getResource("LinearRed.png"));
+	static	Icon LinearYellow = new ImageIcon(JLabelTest.class.getResource("LinearYellow.png"));
+	
+	
+	
 	
 	public LinearGem(BlockEnum c, int i, int j) {
 		super(c);
 		// TODO Auto-generated constructor stub
 		abscissa = i;
 		ordinate=j;
-		label =new JLabelTest(i, j, c, 1, Linear);
+		switch(c){
+		case BLUE:
+			label =new JLabelTest(i, j, c, 1, LinearBlue);
+			break;
+		case ELIM:
+			break;
+		case GREEN:
+			label =new JLabelTest(i, j, c, 1, LinearGreen);
+			break;
+		case PURPLE:
+			label =new JLabelTest(i, j, c, 1, LinearPurple);
+			break;
+		case RED:
+			label =new JLabelTest(i, j, c, 1, LinearRed);
+			break;
+		case WHITE:
+			label =new JLabelTest(i, j, c, 1, LinearOrange);
+			break;
+		case YELLOW:
+			label =new JLabelTest(i, j, c, 1, LinearYellow);
+			break;
+		default:
+			break;
+
+			
+		}
+		
+		
 		
 	}
 

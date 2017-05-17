@@ -13,12 +13,12 @@ public class ColorizedGem extends CommonGem {
 	static	Icon colorized = new ImageIcon(JLabelTest.class.getResource("colorized.png"));
 
 	public ColorizedGem(BlockEnum c, int i, int j) {
-		super(c);
+		super(BlockEnum.ELIM);
 		// TODO Auto-generated constructor stub
 		abscissa = i;
 		ordinate=j;
 		isColorizedGem=true;
-		label =new JLabelTest(i, j, c, 4, colorized);
+		label =new JLabelTest(i, j, BlockEnum.ELIM, 4, colorized);
 	}
 
 	public static void main(String[] args) {
