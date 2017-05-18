@@ -199,7 +199,7 @@ public class JLabelTest extends JLabel implements Runnable{
 				for(int i =100;i>=0;i-=10){
 					frameIndex=i/100f;
 					JLabelTest.this.repaint();
-					System.out.println(frameIndex);
+//					System.out.println(frameIndex);
 					try {
 						Thread.sleep(delayTime);
 					} catch (InterruptedException e) {

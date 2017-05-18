@@ -45,7 +45,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 	 Image kuang=kuangIcon.getImage();
 	public void paintComponent(Graphics g) {  
         super.paintComponent(g);  
-      
+        
        
 		g.drawImage(kuang, 0, 0,this.getWidth(), this.getHeight(), this);  
     }  
@@ -58,6 +58,18 @@ public class GameJPanel extends JPanel implements ActionListener{
 	 
 	 
 	 
+	@Override
+	public void print(Graphics arg0) {
+		// TODO Auto-generated method stub
+
+		super.print(arg0);
+	}
+	
+	
+	
+	
+	
+	
 	public GameJPanel() {
 		// TODO Auto-generated constructor stub
 		setLayout(null);
