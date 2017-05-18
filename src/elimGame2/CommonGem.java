@@ -35,7 +35,8 @@ public class CommonGem implements Runnable {
 	//######################################
 	public static int height;
 	public static int width;
-	
+	//这个方块的价值
+	protected int gemScore;
 	//横坐标
 	public int abscissa ;
 	//纵坐标
@@ -63,23 +64,17 @@ public class CommonGem implements Runnable {
 		return label;
 		
 	}
-	//用来特殊构造
+	//用来特殊构造的构造器
 	public CommonGem(BlockEnum c){
 		color=c;
 		
 	}
 	
-	public void buildTopGem(int i,int j,int move){
-		abscissa = i;
-		ordinate=j;
-		label =new JLabelTest(i, j-move, color);
-		label.goThere(j, i);
-	}
 	
 	
 	
 	
-	
+	//用来一般构造的构造器
 	public CommonGem(BlockEnum c,int i,int j) {
 		// TODO Auto-generated constructor stub
 		abscissa = i;
@@ -88,9 +83,10 @@ public class CommonGem implements Runnable {
 		label =new JLabelTest(i, j, c);
 	}
 
-	/*
+	/**
 	 * 返回该方块应该移动的距离
 	 * 移动是指在坐标上从上往下的距离
+	 * 	
 	 */
 	public int move(){
 		ordinate+=needMove;
@@ -129,30 +125,41 @@ public class CommonGem implements Runnable {
 			
 			return ;
 	}
-	
-	
+	/**
+	 * 构造顶层新制宝石时调用
+	 */
+
+	public void buildTopGem(int i,int j,int move){
+		abscissa = i;
+		ordinate=j;
+		label =new JLabelTest(i, j-move, color);
+		label.goThere(j, i);
+	}
 	
 	
 	public CommonGem levelUp(){
 		if(canLevelUp){
 			if(countAB>4||countOR>4)
 			{
-				//you dian wen ti
+				
 				return new ColorizedGem(color, abscissa, ordinate);
 			}
 			
 			if((countAB==4&&countOR==3)||(countAB==3&&countOR==4))
 			{
+				
 				return new CrossedGem(color, abscissa, ordinate);
 			}
 			
 			if(countAB==4||countOR==4)	
 			{
+				
 				return new LinearGem(color, abscissa, ordinate,countAB>countOR);
 			}	
 			
 			if(countAB==3&&countOR==3)
 			{
+				
 				return new LShapeGem(color, abscissa, ordinate);
 			}
 			
@@ -187,6 +194,8 @@ public class CommonGem implements Runnable {
 		return this.color.colour+"色";
 	}
 
+	
+	//暂时作废******************************************
 
 	@Override
 	public void run() {
@@ -199,4 +208,21 @@ public class CommonGem implements Runnable {
 		
 		
 	} 
+	
+	//***********************************************
+	
+	
+	/**
+	 * 得到这个元素的分值其中一般宝石计1分,特殊宝石计5分,超强宝石(彩色宝石)计10分
+	 * 请注意对同一个元素重复调用该函数将会返回0;
+	 */
+	public int getScore(){
+		
+		int score = gemScore;
+		gemScore=0;
+		
+		
+		
+		return score;
+	}
 }

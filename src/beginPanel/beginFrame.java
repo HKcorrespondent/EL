@@ -16,16 +16,20 @@ import javax.swing.JPanel;
 import swingTest.JFrameTest;
 
 public class beginFrame {
-	static	Icon gif = new ImageIcon(beginFrame.class.getResource("commonGem.gif"));
+	static	Icon gif = new ImageIcon(beginFrame.class.getResource("LinearGreen.png"));
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+//		 TODO Auto-generated method stub
 //		EventQueue.invokeLater(new Runnable()
 //		{
 //		public void run()
 //		{
 //			JFrame frame = new JFrame();
+//			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//			GlassBox label = new GlassBox();
 //			JPanel panel = new JPanel();
-//			JLabel label = new JLabel(gif);
+//			label.setIcon(gif);
+//			label.setBounds(0, 0, label.getIcon().getIconWidth(), label.getIcon().getIconHeight());
+////			JLabel label = new JLabel("gifigifgifigifgifigifgifigifgifigifgifigifgifigifgifigifgifigifgifigifgifigifgifigif");
 //			frame.add(panel);
 //			panel.add(label);
 //			frame.setVisible(true);
@@ -34,59 +38,89 @@ public class beginFrame {
 //			panel.setLayout(null);
 //			panel.setBounds(0,0,600,600);
 //			panel.setBackground(Color.BLUE);
-//			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//			
+//
 //			frame.setVisible(true);
+//			new Thread(new Runnable() {
+//				
+//				@Override
+//				public void run() {
+//					// TODO Auto-generated method stub
+//					try {
+//						Thread.sleep(1000);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					
+//					
+//					label.renew();
+//					label.paint(label.getGraphics());
+//					
+//					
+//					
+//					
+//				}
+//			}).start();;
+//			
+//			
 //		}
 //		});
-//		
-//		
-		JLabel[] j ;
-		j=new JLabel[2];
 		
-		j[1]=new JLabel("12");
-		j[0]=new JLabel("15");
-		List<JLabel> list = new ArrayList<>();
+		EventQueue.invokeLater(new Runnable()
+		{
+		public void run()
+		{
+			JFrame frame = new JFrame();
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			Fade_in label = new Fade_in();
+			JPanel panel = new JPanel();
+			label.setIcon(gif);
+			label.setBounds(0, 0, label.getIcon().getIconWidth(), label.getIcon().getIconHeight());
+
+			frame.add(panel);
+			panel.add(label);
+			frame.setVisible(true);
+			frame.setLayout(null);
+			frame.setBounds(100, 100, 600, 600);
+			panel.setLayout(null);
+			panel.setBounds(0,0,600,600);
+			panel.setBackground(Color.BLUE);
+
+			frame.setVisible(true);
+			
+//			panel.setOpaque(false);
+			label.setOpaque(false);
+			label.setLocation(50,50);
+			label.init();
+			label.start();
+			
+//			new Thread(new Runnable() {
+//				
+//				@Override
+//				public void run() {
+//					// TODO Auto-generated method stub
+//					try {
+//						Thread.sleep(1000);
+//					} catch (InterruptedException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					
+//					
+//					label.renew();
+//					label.paint(label.getGraphics());
+//					
+//					
+//					
+//					
+//				}
+//			}).start();;
+			
+			
+		}
+		});
 		
-		list.add(j[0]);
-		if(!list.contains(j[0]))
-		list.add(j[0]);
-		
-		
-		
-		
-		
-		
-		System.out.println(list.size());
-		
-		
-		
-		Set<Integer> set1=new HashSet<Integer>();
-		Set<Integer> set2=new HashSet<Integer>();
-		
-		
-		
-		set1.add(1);
-		set1.add(2);
-		
-		set1.add(3);
-		set1.add(4);
-		
-		set1.add(5);
-		set1.add(5);
-		
-		
-		set2.add(1);
-		set2.add(5);
-		set2.add(6);
-		set2.add(7);
-		
-		System.out.println(set1.toString());
-		System.out.println(set2.toString());
-		set2.removeAll(set1);
-		System.out.println(set1.toString());
-		System.out.println(set2.toString());
-		
+
 		
 	}
 

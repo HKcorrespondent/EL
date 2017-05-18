@@ -17,6 +17,12 @@ public class ColorizedGem extends CommonGem {
 		// TODO Auto-generated constructor stub
 		abscissa = i;
 		ordinate=j;
+		
+		//这个宝石值10分
+		gemScore=10;
+		
+		
+		
 		isColorizedGem=true;
 		label =new JLabelTest(i, j, BlockEnum.ELIM, 4, colorized);
 	}
