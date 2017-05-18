@@ -68,7 +68,8 @@ public class BlockArgsData {
 	private static CommonGem[][] argsData ;
 	private final int height ;
 	private final int width ;
-	
+	//用来计算得分
+	static long score =0;
 	
 	public BlockArgsData(int h,int w){
 		CommonGem.height=height = h;
@@ -83,9 +84,12 @@ public class BlockArgsData {
 	}
 	
 	
-	
+	/**
+	 * 测试时产生特殊情况
+	 * @param data
+	 */
 	public static void test(CommonGem[][] data){
-		data[0][0]=new ColorizedGem(BlockEnum.ELIM, 0, 0);
+//		data[0][0]=new ColorizedGem(BlockEnum.ELIM, 0, 0);
 //		data[0][1]=new LinearGem(BlockEnum.BLUE, 1, 0, false);
 //		data[0][2]=new CommonGem(BlockEnum.RED, 2, 0);
 //		data[0][3]=new CommonGem(BlockEnum.BLUE, 3, 0);
@@ -435,12 +439,12 @@ public class BlockArgsData {
 		//用来得到新产生的方块或者新升级的方块
 		private static List<CommonGem> changeList=new ArrayList<CommonGem>();
 		/**
-		 * 在调用该函数之前,应该确认已经将可消除的元素标记
+		 * 在调用该函数之前,应该确认已经将可消除的元素标记,该函数会消除所有被标记元素并且如果其不能升级将在数组中置null,能升级的元素将会升级
 		 * @return 返回一个List其中是应该被消除的方块的调用,并且把能升级为特效宝石的方块进行了升级
 		 */	 
 		
 		public List<CommonGem> elim(){
-			List<CommonGem> list=new ArrayList<CommonGem>();
+			List<CommonGem> elimList=new ArrayList<CommonGem>();
 			for(int i =0;i<width;i++){
 				for(int j =0;j<height;j++){
 					if(argsData[j][i].isElim){
@@ -470,7 +474,7 @@ public class BlockArgsData {
 					argsData[j][i].elim();
 			 }
 			notCommonElimSet=(HashSet<Integer>) ((HashSet<Integer>) CommonGem.getNotCommonElimSet()).clone();
-				
+			
 			 
 			}
 			System.out.println("notCommonElimSet="+notCommonElimSet.size());
@@ -478,7 +482,10 @@ public class BlockArgsData {
 //				System.out.println(t);
 				int j=t/100;
 				int i=t%100;
-				list.add(argsData[j][i]);
+				elimList.add(argsData[j][i]);
+				
+				//加分
+				score+=argsData[j][i].getScore();
 				
 				//升级元素并加到清单中
 				argsData[j][i]=argsData[j][i].levelUp();
@@ -493,7 +500,10 @@ public class BlockArgsData {
 //				System.out.println(t);
 				int j=t/100;
 				int i=t%100;
-				list.add(argsData[j][i]);
+				elimList.add(argsData[j][i]);
+				
+				//加分
+				score+=argsData[j][i].getScore();
 				
 				//升级元素并加到清单中
 				argsData[j][i]=argsData[j][i].levelUp();
@@ -511,7 +521,7 @@ public class BlockArgsData {
 			
 			
 			
-			return list;
+			return elimList;
 		}
 		
 		/**
@@ -522,17 +532,19 @@ public class BlockArgsData {
 			 
 			 
 			 
-			 
+			 //这个数组用来计算一列的被消掉的元素数量
 			 
 			 int[] fail = new int[width];
 			
-				
+				//首先
 
 				
 			 for(int i=0;i<width;i++){
 				 for(int j=0;j<height;j++){
 					 if(argsData[j][i]==null){
+						 
 						 fail[i]++;
+						 //在找到了一个被消除的元素之后将上方的元素标记,意味着他们将会掉落一格
 						 for(int jabove = j-1;jabove>=0;jabove--){
 							 if(argsData[jabove][i]!=null){
 								 argsData[jabove][i].needMove++;
@@ -542,7 +554,7 @@ public class BlockArgsData {
 				 }
 			 }
 			 
-			
+			//在数据数组中先移动方块,腾出位置给上方新产生方块
 			 
 			 for(int i=0;i<width;i++){
 				 for(int j=height-1;j>=0;j--){
@@ -597,6 +609,9 @@ public class BlockArgsData {
 			
 			 return changeList;
 		 }
+		 
+		 
+		 //在一次消除结束后刷新数据数组
 		 public void cleanChangelist(){
 			 changeList.clear();
 			 for(int j =0;j<height;j++){
@@ -607,6 +622,16 @@ public class BlockArgsData {
 			 
 			 
 			 
+		 }
+		 
+		 
+		 /**
+		  * 得到分数
+		  * @return
+		  */
+		 public long getAllScore(){
+			 
+			 return score;
 		 }
 		
 }

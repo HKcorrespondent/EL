@@ -28,6 +28,9 @@ public class LinearGem extends CommonGem {
 		ordinate=j;
 		isAbabscissaElim=isab;
 		
+		//这个宝石值5分
+		gemScore=5;
+		
 		switch(c){
 		case BLUE:
 			label =new JLabelTest(i, j, c, 1, LinearBlue);

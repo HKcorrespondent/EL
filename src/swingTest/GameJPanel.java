@@ -19,8 +19,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
-
-
+import com.sun.xml.internal.ws.api.Component;
 
 import elimGame2.BlockArgsData;
 import elimGame2.BlockEnum;
@@ -86,49 +85,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 				
 				
 				
-				data[j][i].getLabel().addMouseListener(new MouseListener() {
-					
-					
-					
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						// TODO Auto-generated method stub
-						if(GameJPanel.lock){
-							
-							GameJPanel.this.mouseExchage(e.getComponent().getY()/50,e.getComponent().getX()/50);
-							}
-					}
-					
-					@Override
-					public void mousePressed(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-				
-						
-					
-
-				
-				} );
+				data[j][i].getLabel().addMouseListener(new Mouse() );
 			}
 		}
 		
@@ -146,7 +103,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 	static boolean lock =true;
 	static int jb=-1;
 	static int ib=-1;
-	private void mouseExchage(int j,int i){
+	public void mouseExchage(int j,int i){
 		
 		if(jb==j&&ib==i){
 			data[jb][ib].getLabel().setBorder(BorderFactory.createEmptyBorder());
@@ -387,12 +344,34 @@ public class GameJPanel extends JPanel implements ActionListener{
 		  	
 		  return true;
 		 
-		  
+		 
 			
 	  }
 	  
+	
 	  
 
+	@Override
+	public java.awt.Component add(java.awt.Component arg0) {
+		// TODO Auto-generated method stub
+		
+		
+		
+		return super.add(arg0);
+	}
+	
+	
+	
+	
+	
+	
+	@Override
+	public void remove(java.awt.Component arg0) {
+		// TODO Auto-generated method stub
+		
+		
+		super.remove(arg0);
+	}
 	public void continue2Elim(){
 		
 		
@@ -414,48 +393,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 				if(g.getLabel().newGet&&g.getLabel().specialGem!=0){
 					GameJPanel.this.add(g.getLabel());
 					g.getLabel().newGet=false;
-				g.getLabel().addMouseListener(new MouseListener() {
-					
-					
-					
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						// TODO Auto-generated method stub
-						if(GameJPanel.lock){
-							GameJPanel.this.mouseExchage(e.getComponent().getY()/50,e.getComponent().getX()/50);
-							}
-					}
-					
-					@Override
-					public void mousePressed(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-				
-						
-					
-
-				
-				});
+				g.getLabel().addMouseListener(new Mouse());
 				}
 				
 				
@@ -477,7 +415,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 			//µÈ´ý¶¯»­½áÊø??
 			try {
 
-				Thread.sleep(400);
+				Thread.sleep(500);
 			} catch (InterruptedException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -498,48 +436,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 					GameJPanel.this.add(g.getLabel());
 			
 					g.getLabel().newGet=false;
-				g.getLabel().addMouseListener(new MouseListener() {
-					
-					
-					
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						// TODO Auto-generated method stub
-						if(GameJPanel.lock){
-							GameJPanel.this.mouseExchage(e.getComponent().getY()/50,e.getComponent().getX()/50);
-							}
-					}
-					
-					@Override
-					public void mousePressed(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseExited(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void mouseEntered(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-				
-						
-					
-
-				
-				});
+				g.getLabel().addMouseListener(new Mouse() );
 				}
 				
 				

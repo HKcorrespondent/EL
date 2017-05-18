@@ -2,7 +2,10 @@ package swingTest;
 
 
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -15,6 +18,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 import com.sun.imageio.plugins.gif.GIFImageReader;
 import com.sun.imageio.plugins.gif.GIFImageWriter;
@@ -103,7 +107,7 @@ public class JLabelTest extends JLabel implements Runnable{
 	
 	int specialGem=0;
 	
-	/*
+	/**
 	 * 用于产生特殊宝石的构造器
 	 * 
 	 * 
@@ -138,6 +142,35 @@ public class JLabelTest extends JLabel implements Runnable{
 	
 	
 
+	@Override
+	public void paint(Graphics g) {
+		// TODO Auto-generated method stub
+		 if(isGodie){
+	            //根据当前帧显示当前透明度的内容组件
+	            float alpha=frameIndex;
+	            Graphics2D g2d=(Graphics2D)g;
+	            
+	           
+	            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, alpha));
+	   
+	            super.paint(g2d);
+	        }else{
+	            //如果是第一次，启动动画时钟
+	        	super.paint(g);
+	            
+	            
+
+	        }
+	}
+
+
+
+
+
+
+
+
+
 	static	Icon common1 = new ImageIcon(JLabelTest.class.getResource("总消1.png"));
 
 	static	Icon common2 = new ImageIcon(JLabelTest.class.getResource("总消2.png"));
@@ -146,64 +179,101 @@ public class JLabelTest extends JLabel implements Runnable{
 
 	static	Icon common4 = new ImageIcon(JLabelTest.class.getResource("总消4.png"));
 	
-	
-	private final static int delayTime =100;
-	/*
-	 * 制作普通消除的特效
+	private boolean isGodie = false;
+	private float frameIndex =1;
+	 
+	 
+	private final static int delayTime =50;
+	/**
+	 * 制作普通消除的特效//这个其实应该是淡入淡出效果
 	 */
 	public void commonElimSpecialEffects( ){
-	
-		
 		
 		new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
-				// TODO Auto-generated method stub
-			setIcon(null);
-			
-		
-			
-			
-			
-			setIcon(common1);
-			try {
-				Thread.sleep(delayTime);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			setIcon(common2);
-			try {
-				Thread.sleep(delayTime);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			setIcon(common3);
-			try {
-				Thread.sleep(delayTime);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			setIcon(common4);
-			try {
-				Thread.sleep(delayTime);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				isGodie=true;
 				
+				// TODO Auto-generated method stub
+				for(int i =100;i>=0;i-=10){
+					frameIndex=i/100f;
+					JLabelTest.this.repaint();
+					System.out.println(frameIndex);
+					try {
+						Thread.sleep(delayTime);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 				
 			}
 		}).start();;
 		
 		
+		
+		
+		
+		
 	}
+	
+//	/**
+//	 * 制作普通消除的特效//这个其实应该是淡入淡出效果
+//	 */
+//	public void commonElimSpecialEffects( ){
+//	
+//		
+//		
+//		new Thread(new Runnable() {
+//			
+//			@Override
+//			public void run() {
+//				// TODO Auto-generated method stub
+//			setIcon(null);
+//			
+//		
+//			
+//			
+//			
+//			setIcon(common1);
+//			try {
+//				Thread.sleep(delayTime);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//
+//			setIcon(common2);
+//			try {
+//				Thread.sleep(delayTime);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//
+//			setIcon(common3);
+//			try {
+//				Thread.sleep(delayTime);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//
+//			setIcon(common4);
+//			try {
+//				Thread.sleep(delayTime);
+//			} catch (InterruptedException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//				
+//				
+//			}
+//		}).start();;
+//		
+//		
+//	}
 	
 	
 	
