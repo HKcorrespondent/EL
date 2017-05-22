@@ -114,7 +114,7 @@ public class EffPanel extends JPanel{
 
 
 	EffPanel(int height,int width){
-
+		setPreferredSize(null);
 		setOpaque(false);
 		setLayout(null);
 		setBounds(0, 0, width, height);
