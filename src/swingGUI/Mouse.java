@@ -16,7 +16,7 @@ public class Mouse implements java.awt.event.MouseListener{
 		// TODO Auto-generated method stub
 		
 		if(GameJPanel.lock){
-			
+			Music.sound("a6");
 			((GameJPanel)e.getComponent().getParent()).mouseExchage(e.getComponent().getY()/50,e.getComponent().getX()/50);
 			}
 	}

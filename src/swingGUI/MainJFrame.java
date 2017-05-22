@@ -44,7 +44,7 @@ public class MainJFrame extends JFrame implements ActionListener{
 	
 	CardLayout card = new CardLayout();
 
-	
+	JButton endGame = new JButton();
 	JPanel pane=new JPanel();
 	
 	public MainJFrame() {
@@ -66,6 +66,20 @@ public class MainJFrame extends JFrame implements ActionListener{
 		backgroundPanel.add(game);
 		backgroundPanel.add(back);
 		
+		back.add(endGame);
+		endGame.setContentAreaFilled(false);
+		endGame.setBorderPainted(false);
+		endGame.setOpaque(false);
+		endGame.setIcon(StartPage.end);
+		endGame.setBounds(300, 700, StartPage.end.getIconWidth(),StartPage.end.getIconHeight());
+		endGame.addActionListener(this);
+		
+		
+		
+		
+		
+		
+		
 		 pane.setLayout(card);
 	     pane.add(starPage, "starPage");
 	     pane.add(backgroundPanel, "game");
@@ -76,7 +90,7 @@ public class MainJFrame extends JFrame implements ActionListener{
 		add( pane);
 		
 		starPage.startGame.addActionListener(this);
-	
+		starPage.endGame.addActionListener(this);
 		
 		try {
 			UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -126,7 +140,16 @@ public class MainJFrame extends JFrame implements ActionListener{
 			 
 			 
 	        }
-
+		 if(e.getSource()==starPage.endGame)
+	        {
+			 	System.exit(0);
+	        }
+		 if(e.getSource()==endGame)
+	        {
+			 	System.exit(0);
+	        }
+		 
+		 
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

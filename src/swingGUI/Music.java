@@ -13,8 +13,8 @@ public class Music {
 		File file2;
 		File file3;
 		File file4;
-		private boolean buttion=true;
-		AudioClip  sound1,sound2,sound3,sound4,sound5;
+		private static boolean buttion=true;
+		static AudioClip  sound1,sound2,sound3,sound4,sound5;
 		
 		
 			//构造方法
@@ -22,10 +22,8 @@ public class Music {
 			try {
 				sound1 = JApplet.newAudioClip((getClass().getResource("bg_1.wav")));
 				sound2 = Applet.newAudioClip(getClass().getResource("buttion.wav"));
-				
-				System.out.println(getClass().getResource("BGM.wav"));
-//				sound3 = Applet.newAudioClip(getClass().getResource("fail.wav"));
-//				sound4 = Applet.newAudioClip(getClass().getResource("reward.wav"));
+				sound3 = Applet.newAudioClip(getClass().getResource("a6.wav"));
+				sound4 = Applet.newAudioClip(getClass().getResource("消除1.wav"));
 //				sound5 = Applet.newAudioClip(getClass().getResource("buttion.wav"));
 			} catch(OutOfMemoryError|Exception e){
 				System.out.println("内存溢出");
@@ -33,18 +31,25 @@ public class Music {
 				}
 			}	
 		
-			public void sound(String name){
+			public static void sound(String name){
 				if(buttion){
 						switch(name){
 					case "BGM":
-						System.out.println("!!!!!");
-						
+					
 						sound1.loop();
 						break;
 
 					case "buttion":
 						sound2.play();
 						break;	
+					case "a6":
+						sound3.play();
+						break;	
+					case "消除1":
+						sound4.play();
+						break;	
+						
+						
 					}
 				}
 			}

@@ -64,9 +64,9 @@ public class StartPage extends JPanel {
 	//¸ß¶È
 	public	static  int DEFAULT_HEIGHT=800;
 	JButton startGame = new JButton();
-	
+	JButton endGame = new JButton();
 	static	ImageIcon start = new ImageIcon(MainJFrame.class.getResource("start.png"));
-
+	static	ImageIcon end = new ImageIcon(MainJFrame.class.getResource("end.png"));
 	StartPage(int DEFAULT_WIDTH,int DEFAULT_HEIGHT){
 //		setLayout(card);
 		setLayout(null);
@@ -74,11 +74,19 @@ public class StartPage extends JPanel {
 
 		add(startGame);
 		
+		
 		startGame.setContentAreaFilled(false);
 		startGame.setBorderPainted(false);
 		startGame.setOpaque(false);
 		startGame.setIcon(start);
-		startGame.setBounds(400, 300, start.getIconWidth(),start.getIconHeight());
+		startGame.setBounds(300, 300, start.getIconWidth(),start.getIconHeight());
+		
+		add(endGame);
+		endGame.setContentAreaFilled(false);
+		endGame.setBorderPainted(false);
+		endGame.setOpaque(false);
+		endGame.setIcon(end);
+		endGame.setBounds(300, 352, end.getIconWidth(),end.getIconHeight());
 		
 	}
 		

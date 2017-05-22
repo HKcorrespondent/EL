@@ -212,7 +212,7 @@ public class JLabelTest extends JLabel implements Runnable{
 		}).start();;
 		
 		
-		
+		Music.sound("Ïû³ı1");
 		
 		
 		
