@@ -1,5 +1,6 @@
 package elimGame2;
 
+import java.awt.Image;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -7,7 +8,56 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.ImageIcon;
 
+import swingGUI.MainJFrame;
+
+ class Score {
+
+	public final static	Image scoreImage = new ImageIcon(MainJFrame.class.getResource("score.png")).getImage();
+	public final static	Image score0 = new ImageIcon(MainJFrame.class.getResource("n0.png")).getImage();
+	public final static	Image score1 = new ImageIcon(MainJFrame.class.getResource("n1.png")).getImage();
+	public final static	Image score2 = new ImageIcon(MainJFrame.class.getResource("n2.png")).getImage();
+	public final static	Image score3 = new ImageIcon(MainJFrame.class.getResource("n3.png")).getImage();
+	public final static	Image score4 = new ImageIcon(MainJFrame.class.getResource("n4.png")).getImage();
+	public final static	Image score5 = new ImageIcon(MainJFrame.class.getResource("n5.png")).getImage();
+	public final static	Image score6 = new ImageIcon(MainJFrame.class.getResource("n6.png")).getImage();
+	public final static	Image score7 = new ImageIcon(MainJFrame.class.getResource("n7.png")).getImage();
+	public final static	Image score8 = new ImageIcon(MainJFrame.class.getResource("n8.png")).getImage();
+	public final static	Image score9 = new ImageIcon(MainJFrame.class.getResource("n9.png")).getImage();
+	
+	public static Image getImage(int i){
+		switch(i){
+		case 0:
+			return score0;
+		case 1:
+			return score1;
+		case 2:
+			return score2;
+		case 3:
+//			System.out.println("return null");
+			return score3;
+		case 4:
+			return score4;
+		case 5:
+			return score5;
+		case 6:
+			return score6;
+		case 7:
+			return score7;
+		case 8:
+			return score8;
+		case 9:
+			
+			return score9;
+		default:
+			return scoreImage;
+		}
+		
+	}
+	
+	
+}
 
 
 
@@ -70,6 +120,47 @@ public class BlockArgsData {
 	private final int width ;
 	//用来计算得分
 	static long score =0;
+	private static Image[] Images=new Image[6];
+	
+	public static Image[] getScoreImage(){
+
+		Images[0]=Score.scoreImage;
+		Images[1]=Score.getImage((int)((score%100000)/10000));
+		Images[2]=Score.getImage((int)((score%10000)/1000));
+		Images[3]=Score.getImage((int)((score%1000)/100));
+
+		Images[4]=Score.getImage((int)((score%100)/10));
+		Images[5]=Score.getImage((int)(score%10));
+		return Images;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public BlockArgsData(int h,int w){
 		CommonGem.height=height = h;
@@ -485,7 +576,7 @@ public class BlockArgsData {
 				elimList.add(argsData[j][i]);
 				
 				//加分
-				score+=argsData[j][i].getScore();
+				score+=argsData[j][i].getGemScore();
 				
 				//升级元素并加到清单中
 				argsData[j][i]=argsData[j][i].levelUp();
@@ -503,7 +594,7 @@ public class BlockArgsData {
 				elimList.add(argsData[j][i]);
 				
 				//加分
-				score+=argsData[j][i].getScore();
+				score+=argsData[j][i].getGemScore();
 				
 				//升级元素并加到清单中
 				argsData[j][i]=argsData[j][i].levelUp();
@@ -562,8 +653,11 @@ public class BlockArgsData {
 						 changeList.add(argsData[j][i]);
 						 int move =argsData[j][i].move();
 						 
-						 
 						 argsData[j+(move)][i]=argsData[j][i];
+						 
+						 //新的方块按理应该能升级,但是还没有考虑两块一样颜色的发生特效消除时都变成特效方块
+						 argsData[j+(move)][i].canLevelUp=true;
+						 
 						 argsData[j][i]=null;
 						 
 					 }
@@ -604,7 +698,7 @@ public class BlockArgsData {
 			 
 			 
 			 
-			 
+			 deleteOneMoreLevelUP();
 			 
 			
 			 return changeList;
@@ -614,8 +708,104 @@ public class BlockArgsData {
 		 //在一次消除结束后刷新数据数组
 		 public void cleanChangelist(){
 			 changeList.clear();
+			 
+			 
+			 
+			 
+		 }
+		 
+		 /**
+		  * 消除这个bug //新的方块按理应该能升级,但是还没有考虑两块一样颜色的发生特效消除时都变成特效方块
+		  */
+		 private void deleteOneMoreLevelUP(){
+			 
+			 for(int j =0;j<height-1;j++){
+				 for(int i=0;i<width-1;i++){
+					 if(argsData[j][i].canLevelUp==true&&argsData[j][i].color==argsData[j+1][i].color&&argsData[j+1][i].canLevelUp==true){
+						 int count=2;
+						 {
+								
+								int t =j-1;
+							 	while(t>=0){
+									if(argsData[j][i].equals(argsData[t][i])){
+										count++;
+										t--;
+									}else{ break; }
+									
+								}
+								t=j+2;
+								while(t<height){
+									if(this.argsData[j][i].equals(this.argsData[t][i])){
+										count++;
+										t++;
+									}else{ break; }
+									
+								}
+						 
+						 
+						 }
+						 if(count==4){
+							 int s=j+1;
+							 while(s<width&&argsData[s][i].canLevelUp==true){
+								 argsData[s][i].canLevelUp=false;
+								 s++;
+								 
+							 }
+						 
+						 }
+						 
+					 }
+					 if(argsData[j][i].canLevelUp==true&&argsData[j][i].color==argsData[j][i+1].color&&argsData[j][i+1].canLevelUp==true){
+						 
+						int count=2;
+						 {
+								
+								int t =i-1;
+							 	while(t>=0){
+									if(argsData[j][i].equals(argsData[j][t])){
+										count++;
+										t--;
+									}else{ break; }
+									
+								}
+								t=i+2;
+								while(t<width){
+									if(this.argsData[j][i].equals(this.argsData[j][t])){
+										count++;
+										t++;
+									}else{ break; }
+									
+								}
+						 
+						 
+						 }
+						 if(count==4){
+							 int s=i+1;
+							 while(s<width&&argsData[j][s].canLevelUp==true){
+								 argsData[j][s].canLevelUp=false;
+								 s++;
+								 
+							 }
+						 
+						 }
+						 
+						 
+					 }
+				 }
+			 }
+		 }
+		 
+		 
+		 
+		 
+		 
+		 
+		//在一次消除结束后刷新数据数组
+		 public void cleanLevelUp(){
+			
 			 for(int j =0;j<height;j++){
 				 for(int i=0;i<width;i++){
+					 if(argsData[j][i]!=null)
 					 argsData[j][i].canLevelUp=false; 
 				 }
 			 }
@@ -624,14 +814,6 @@ public class BlockArgsData {
 			 
 		 }
 		 
-		 
-		 /**
-		  * 得到分数
-		  * @return
-		  */
-		 public long getAllScore(){
-			 
-			 return score;
-		 }
+
 		
 }

@@ -1,4 +1,4 @@
-package swingTest;
+package swingGUI;
 
 
 
@@ -36,12 +36,11 @@ public class GameJPanel extends JPanel implements ActionListener{
 	public static int heightNum = 10;
 	
 	
-	Thread t1 ;
-
-	Thread t2 ;
+	private Thread t1 ;
+	private Thread t2 ;
 	
-
-	static	ImageIcon kuangIcon = new ImageIcon(JFrameTest.class.getResource("kuang.png"));
+	
+	static	ImageIcon kuangIcon = new ImageIcon(MainJFrame.class.getResource("kuang.png"));
 	 Image kuang=kuangIcon.getImage();
 	public void paintComponent(Graphics g) {  
         super.paintComponent(g);  
@@ -58,15 +57,9 @@ public class GameJPanel extends JPanel implements ActionListener{
 	 
 	 
 	 
-	@Override
-	public void print(Graphics arg0) {
-		// TODO Auto-generated method stub
 
-		super.print(arg0);
-	}
 	
-	
-	
+
 	
 	
 	
@@ -91,8 +84,8 @@ public class GameJPanel extends JPanel implements ActionListener{
 		
 		//*********************************************************************************
 		
-		for(int i =0;i<width;i++){
-			for(int j =0;j<height;j++){
+		 for(int j =0;j<height;j++){
+			 for(int i =0;i<width;i++){
 				add(data[j][i].getLabel());
 				
 				
@@ -115,6 +108,8 @@ public class GameJPanel extends JPanel implements ActionListener{
 	static boolean lock =true;
 	static int jb=-1;
 	static int ib=-1;
+	
+	
 	public void mouseExchage(int j,int i){
 		
 		if(jb==j&&ib==i){
@@ -313,6 +308,8 @@ public class GameJPanel extends JPanel implements ActionListener{
 																			
 								continue2Elim();	
 							}
+							//problem
+							blockArgsData.cleanLevelUp();
 							
 							jb=-1;
 							ib=-1;
@@ -362,13 +359,14 @@ public class GameJPanel extends JPanel implements ActionListener{
 	  
 	
 	  
-
-	@Override
-	public java.awt.Component add(java.awt.Component arg0) {
+	  
+	public java.awt.Component addWithEff(java.awt.Component arg0) {
 		// TODO Auto-generated method stub
 		
-		
-		
+		if(arg0 instanceof JLabelTest)
+		{
+			((JLabelTest)arg0).LevelUpEffects();
+		}
 		return super.add(arg0);
 	}
 	
@@ -384,6 +382,10 @@ public class GameJPanel extends JPanel implements ActionListener{
 		
 		super.remove(arg0);
 	}
+	
+	
+	
+	
 	public void continue2Elim(){
 		
 		
@@ -393,6 +395,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 			ScheduledExecutorService scheduledThreadPool;
 			
 			listElim = blockArgsData.elim();
+			blockArgsData.cleanLevelUp();
 			listdrop =blockArgsData.drop();
 			scheduledThreadPool = Executors.newScheduledThreadPool(80);  
 			
@@ -424,15 +427,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 				
 				
 				
-			//等待动画结束??
-			try {
 
-				Thread.sleep(500);
-			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			//是的
 			
 			
 			
@@ -445,7 +440,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 				
 				
 				if(g.getLabel().newGet&&g.getLabel().specialGem==0){
-					GameJPanel.this.add(g.getLabel());
+					GameJPanel.this.addWithEff(g.getLabel());
 			
 					g.getLabel().newGet=false;
 				g.getLabel().addMouseListener(new Mouse() );
@@ -453,6 +448,19 @@ public class GameJPanel extends JPanel implements ActionListener{
 				
 				
 			}
+			
+			//等待动画结束??
+			try {
+
+				Thread.sleep(500);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			//是的
+			
+			
+			
 			//去除被消掉的方块
 //			GameJPanel.this.repaint();
 			
@@ -470,6 +478,9 @@ public class GameJPanel extends JPanel implements ActionListener{
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+			
+			EffPanel.changeScore();
+			
 			
 			//模拟掉落
 				for(CommonGem g :listdrop){

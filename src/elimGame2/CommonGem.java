@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import com.sun.prism.Image;
 
 import sun.awt.image.GifImageDecoder;
-import swingTest.JLabelTest;
+import swingGUI.JLabelTest;
 
 //2.	玩家可以置换相邻两块宝石的位置，只有三个或三个以上相同宝石在同一行或同一列才能消除成功，如果置换后未能消除成功则两块宝石回到初始位置。
 public class CommonGem implements Runnable {
@@ -81,8 +81,13 @@ public class CommonGem implements Runnable {
 		ordinate=j;
 		color=c;
 		label =new JLabelTest(i, j, c);
+		gemScore=100;
 	}
 
+	
+	
+	
+	
 	/**
 	 * 返回该方块应该移动的距离
 	 * 移动是指在坐标上从上往下的距离
@@ -145,11 +150,7 @@ public class CommonGem implements Runnable {
 				return new ColorizedGem(color, abscissa, ordinate);
 			}
 			
-			if((countAB==4&&countOR==3)||(countAB==3&&countOR==4))
-			{
-				
-				return new CrossedGem(color, abscissa, ordinate);
-			}
+			
 			
 			if(countAB==4||countOR==4)	
 			{
@@ -157,15 +158,21 @@ public class CommonGem implements Runnable {
 				return new LinearGem(color, abscissa, ordinate,countAB>countOR);
 			}	
 			
-			if(countAB==3&&countOR==3)
-			{
-				
-				return new LShapeGem(color, abscissa, ordinate);
-			}
-			
-			
-			
+	
 		}
+		
+		if((countAB==4&&countOR==3)||(countAB==3&&countOR==4))
+		{
+			
+			return new CrossedGem(color, abscissa, ordinate);
+		}
+		
+		if(countAB==3&&countOR==3)
+		{
+			
+			return new LShapeGem(color, abscissa, ordinate);
+		}
+		
 		return null;
 	}
 	public void renew(int j,int i){
@@ -216,7 +223,7 @@ public class CommonGem implements Runnable {
 	 * 得到这个元素的分值其中一般宝石计1分,特殊宝石计5分,超强宝石(彩色宝石)计10分
 	 * 请注意对同一个元素重复调用该函数将会返回0;
 	 */
-	public int getScore(){
+	public int getGemScore(){
 		
 		int score = gemScore;
 		gemScore=0;
