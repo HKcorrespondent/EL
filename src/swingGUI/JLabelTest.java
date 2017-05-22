@@ -1,4 +1,4 @@
-package swingTest;
+package swingGUI;
 
 
 
@@ -145,7 +145,7 @@ public class JLabelTest extends JLabel implements Runnable{
 	@Override
 	public void paint(Graphics g) {
 		// TODO Auto-generated method stub
-		 if(isGodie){
+		 if(isGoDie){
 	            //根据当前帧显示当前透明度的内容组件
 	            float alpha=frameIndex;
 	            Graphics2D g2d=(Graphics2D)g;
@@ -155,7 +155,7 @@ public class JLabelTest extends JLabel implements Runnable{
 	   
 	            super.paint(g2d);
 	        }else{
-	            //如果是第一次，启动动画时钟
+	          
 	        	super.paint(g);
 	            
 	            
@@ -179,7 +179,7 @@ public class JLabelTest extends JLabel implements Runnable{
 
 	static	Icon common4 = new ImageIcon(JLabelTest.class.getResource("总消4.png"));
 	
-	private boolean isGodie = false;
+	private boolean isGoDie = false;
 	private float frameIndex =1;
 	 
 	 
@@ -193,13 +193,13 @@ public class JLabelTest extends JLabel implements Runnable{
 			
 			@Override
 			public void run() {
-				isGodie=true;
+				isGoDie=true;
 				
 				// TODO Auto-generated method stub
 				for(int i =100;i>=0;i-=10){
 					frameIndex=i/100f;
 					JLabelTest.this.repaint();
-					System.out.println(frameIndex);
+//					System.out.println(frameIndex);
 					try {
 						Thread.sleep(delayTime);
 					} catch (InterruptedException e) {
@@ -217,7 +217,39 @@ public class JLabelTest extends JLabel implements Runnable{
 		
 		
 	}
-	
+	/**
+	 * 制作普通消除的特效//这个其实应该是淡入淡出效果
+	 */
+	public void LevelUpEffects( ){
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				isGoDie=true;
+					
+				// TODO Auto-generated method stub
+				for(int i =0;i<=100;i+=10){
+					frameIndex=i/100f;
+					JLabelTest.this.repaint();
+//					System.out.println(frameIndex);
+					try {
+						Thread.sleep(delayTime);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+			}
+		}).start();;
+		
+		
+		
+		
+		
+		
+	}
 //	/**
 //	 * 制作普通消除的特效//这个其实应该是淡入淡出效果
 //	 */

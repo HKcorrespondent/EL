@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import swingTest.JFrameTest;
+import swingGUI.MainJFrame;
 
 public class beginFrame {
 	static	Icon gif = new ImageIcon(beginFrame.class.getResource("LinearGreen.png"));

@@ -3,7 +3,7 @@ package elimGame2;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import swingTest.JLabelTest;
+import swingGUI.JLabelTest;
 
 public class CrossedGem extends CommonGem {
 
@@ -25,8 +25,8 @@ public class CrossedGem extends CommonGem {
 		
 		
 		
-		//这个宝石值5分
-		gemScore=5;
+		//这个宝石值500分
+		gemScore=500;
 		
 		switch(c){
 		case BLUE:

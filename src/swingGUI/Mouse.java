@@ -1,4 +1,4 @@
-package swingTest;
+package swingGUI;
 
 import java.awt.event.MouseEvent;
 import elimGame2.BlockArgsData;
@@ -14,7 +14,9 @@ public class Mouse implements java.awt.event.MouseListener{
 	public void mouseReleased(MouseEvent e) {
 		
 		// TODO Auto-generated method stub
+		
 		if(GameJPanel.lock){
+			
 			((GameJPanel)e.getComponent().getParent()).mouseExchage(e.getComponent().getY()/50,e.getComponent().getX()/50);
 			}
 	}
