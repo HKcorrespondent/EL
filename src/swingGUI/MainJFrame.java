@@ -29,7 +29,7 @@ public class MainJFrame extends JFrame implements ActionListener{
 	//高度
 	public	static  int DEFAULT_HEIGHT=800;
 	
-	static	Icon background = new ImageIcon(MainJFrame.class.getResource("background.png"));
+	static	Icon background = new ImageIcon(MainJFrame.class.getResource("gameBackground.png"));
 	
 
 	
@@ -129,7 +129,7 @@ public class MainJFrame extends JFrame implements ActionListener{
 //			 starPage.setVisible(false);
 //			 game.setVisible(true);
 //			 Effects.setVisible(true);
-			 music.sound("buttion");
+			 music.sound("按键");
 			 card.show(pane, "game");
 			 
 	            //这里还可以做些什么

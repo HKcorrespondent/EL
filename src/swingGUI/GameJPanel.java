@@ -448,7 +448,7 @@ public class GameJPanel extends JPanel implements ActionListener{
 				
 				
 			}
-			
+			Music.sound("消除");
 			//等待动画结束??
 			try {
 

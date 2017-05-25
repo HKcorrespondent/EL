@@ -23,7 +23,7 @@ import javax.swing.Timer;
 import com.sun.imageio.plugins.gif.GIFImageReader;
 import com.sun.imageio.plugins.gif.GIFImageWriter;
 
-import base.MyJButton;
+
 import elimGame2.BlockEnum;
 import elimGame2.myPoint;
 

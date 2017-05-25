@@ -16,7 +16,7 @@ public class CrossedGem extends CommonGem {
 	static	Icon CrossedYellow = new ImageIcon(JLabelTest.class.getResource("CrossedYellow.png"));
 
 	
-	static	Icon Crossed = new ImageIcon(JLabelTest.class.getResource("green.jpg"));
+	
 	public CrossedGem(BlockEnum c, int i, int j) {
 		super(c);
 		// TODO Auto-generated constructor stub
