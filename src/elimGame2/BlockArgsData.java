@@ -180,16 +180,7 @@ public class BlockArgsData {
 	 * @param data
 	 */
 	public static void test(CommonGem[][] data){
-//		data[0][0]=new ColorizedGem(BlockEnum.ELIM, 0, 0);
-//		data[0][1]=new LinearGem(BlockEnum.BLUE, 1, 0, false);
-//		data[0][2]=new CommonGem(BlockEnum.RED, 2, 0);
-//		data[0][3]=new CommonGem(BlockEnum.BLUE, 3, 0);
-//		data[0][4]=new CommonGem(BlockEnum.YELLOW, 4, 0);
-//		
-//		data[1][0]=new CommonGem(BlockEnum.BLUE, 0, 1);
-//		data[1][1]=new CommonGem(BlockEnum.RED, 1, 1);
-//		data[1][2]=new CommonGem(BlockEnum.BLUE, 2, 1);
-//		data[1][3]=new CommonGem(BlockEnum.BLUE, 3, 1);
+
 //		data[1][4]=new CommonGem(BlockEnum.YELLOW, 4, 1);
 	}
 	
@@ -744,7 +735,7 @@ public class BlockArgsData {
 						 
 						 
 						 }
-						 if(count==4){
+						 if(count>=4){
 							 int s=j+1;
 							 while(s<width&&argsData[s][i].canLevelUp==true){
 								 argsData[s][i].canLevelUp=false;
@@ -779,7 +770,7 @@ public class BlockArgsData {
 						 
 						 
 						 }
-						 if(count==4){
+						 if(count>=4){
 							 int s=i+1;
 							 while(s<width&&argsData[j][s].canLevelUp==true){
 								 argsData[j][s].canLevelUp=false;

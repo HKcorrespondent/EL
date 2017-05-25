@@ -17,7 +17,7 @@ public class LShapeGem extends CommonGem {
 	static	Icon LShapeRed = new ImageIcon(JLabelTest.class.getResource("LShapeRed.png"));
 	static	Icon LShapeYellow = new ImageIcon(JLabelTest.class.getResource("LShapeYellow.png"));
 	
-	static	Icon LShape = new ImageIcon(JLabelTest.class.getResource("blue.jpg"));
+
 	
 	public LShapeGem(BlockEnum c, int i, int j) {
 		super(c);
